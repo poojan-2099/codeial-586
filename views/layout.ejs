@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title%>></title>
+    <title><%=title%></title>
+    <%- style %>
 </head>
 <body>
-        <a href="/">Home</a>
-        <a href="#">About</a>
-    <h1>we are in about </h1>
+    <%- include('_header');%>
+    
+    <%- body%>
+    
+    <%- include('_footer');%>
+    
+    <%- script %>
 </body>
 </html>

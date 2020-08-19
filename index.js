@@ -1,15 +1,30 @@
 const express = require('express');
-// const path = require('path');
+const cookieParser= require('cookie-parser');
 const app = express();
 const port = 8000;
+const db= require('./config/mongoose');
+const expressLayouts= require('express-ejs-layouts');
+// const path = require('path');
+
+app.use(express.urlencoded());
+
+app.use(cookieParser());
+
+app.use(express.static('./assets'));
+
+app.use(expressLayouts);
+//exrtract style and script feom subpages to layout page
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true);
+
+//use express router
+app.use('/',require('./routes'));
 
 //set view engine
 app.set('view engine', 'ejs');
-// app.set('views', path.join(__dirname, 'views'));
 app.set('views', './views');
+// app.set('views', path.join(__dirname, 'views'));
 
-//use express router
-app.use('/',require('./routes/index'));
 
 //run app on port
 app.listen(port, function (err) {
