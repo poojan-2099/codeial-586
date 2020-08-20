@@ -2,29 +2,17 @@ const User = require('../models/user')
 
 //function for user page profile
 module.exports.userProfile = function (req, res) {
-    console.log(req.cookies.user_id);
-    if (req.cookies.user_id) {
-        User.findById(req.cookies.user_id , (err, user) => {
-            if (err) { console.log('error in creating user while signing up'); return }
-            if (user) {
-                return res.render('user_profile.ejs', {
-                    title: 'Profile',
-                    user:user
-                });
-            } else {
-                return res.redirect('/user/sign_In');
-
-            }
-        });
-    } else {
-        return res.redirect('/user/sign_In');
-
-    }
-
+    res.statusCode = 200;
+    return res.render('user_profile.ejs', {
+        title: 'Profile'
+    });
 };
 
 //function for user sign up page
 module.exports.signUp = function (req, res) {
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
     res.statusCode = 200;
     return res.render('user_sign_up.ejs', {
         title: 'Codeial | Sign Up'
@@ -33,6 +21,9 @@ module.exports.signUp = function (req, res) {
 
 //function for user sign in page
 module.exports.signIn = function (req, res) {
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
     res.statusCode = 200;
     return res.render('user_sign_in.ejs', {
         title: 'Codeial | Sign In'
@@ -56,36 +47,16 @@ module.exports.create = function (req, res) {
         } else {
             return res.redirect('back');
         }
+
     });
 }
 
 //function for user sign in page
 module.exports.loginUser = function (req, res) {
-    //steps for sign in
+    return res.redirect('/user/profile');
+};
 
-    // find user id
-    User.findOne({ email: req.body.email }, (err, user) => {
-        if (err) { console.log('error in finding user in signing In'); return }
-        //hendle user found
-        if (user) {
-            //check password
-            if (user.password != req.body.password) {
-                return res.redirect('back');
-            }
-            //hendle session choockie
-            res.cookie('user_id', user.id);
-            return res.redirect('/user/profile');
-        } else {
-            //hendle user not found
-            return res.redirect('back');
-        }
-    });
-
-}
-
-
-//function for sign out
-module.exports.signOut=function(req,res){
-    res.clearCookie('user_id');
-    return res.redirect('/user/sign_In');
-}
+// module.exports.signOut=function(req,res){
+//     req.logout();
+//     return res.redirect('/user/sign_In');
+// }

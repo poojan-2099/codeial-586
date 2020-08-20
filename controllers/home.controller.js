@@ -12,6 +12,10 @@ module.exports.postUser=function(req,res){
 };
 
 
+module.exports.signOut=function(req,res){
+    req.logout();
+    return res.redirect('/user/sign_In');
+}
 
 
 

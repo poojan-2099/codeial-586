@@ -1,9 +1,14 @@
 const express = require('express');
-const cookieParser= require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
-const db= require('./config/mongoose');
-const expressLayouts= require('express-ejs-layouts');
+const db = require('./config/mongoose');
+const expressLayouts = require('express-ejs-layouts');
+const session = require('express-session');
+const passport = require('passport');
+const passportLocal = require('./config/passport_local_strategy');
+
+const mongoStore = require('connect-mongo')(session);
 // const path = require('path');
 
 app.use(express.urlencoded());
@@ -14,17 +19,39 @@ app.use(express.static('./assets'));
 
 app.use(expressLayouts);
 //exrtract style and script feom subpages to layout page
-app.set('layout extractStyles',true);
-app.set('layout extractScripts',true);
-
-//use express router
-app.use('/',require('./routes'));
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 //set view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
 // app.set('views', path.join(__dirname, 'views'));
 
+app.use(session({
+    name:'codeial',
+    secret:'avengers',
+    saveUninitialized:false,
+    resave:false,
+    cookie:{
+        maxAge:(1000*100*60)
+    },
+    store: new mongoStore(
+        {
+            mongooseConnection:db,
+            autoRemove:'disable'
+        },
+        function(err){
+            console.log(err || 'connect-mongodb setup ok')
+        }
+    )
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.setAuthenticatedUser);
+
+//use express router
+app.use('/', require('./routes'));
 
 //run app on port
 app.listen(port, function (err) {
