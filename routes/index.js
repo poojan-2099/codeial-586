@@ -4,6 +4,7 @@ const router = express.Router();
 //import homecontroller from controllers
 const homeController= require('../controllers/home.controller')
 
+
 //router for home page
 router.get('/',homeController.home);
 router.get('/sign-out',homeController.signOut);

@@ -5,10 +5,10 @@
 }
 body{
     background-color: #d9dde0;
-    
-    /* height: 100vh; */
+    margin-top: 30%;
 }
 .login{
+
     display: block;
     margin: auto;
     width: 500px;
@@ -17,9 +17,10 @@ body{
     /* border: 2px solid black; */
     border-radius: 24px;
     box-shadow: -10px -10px 20px white,
-                10px 10px 20px rgb(138, 138, 138)
+                10px 10px 20px rgb(138, 138, 138);
                 /* 10px 10px 20px white inset,
                 -10px -10px 20px rgb(194, 194, 194) inset */
+  
 
 }
 .title{

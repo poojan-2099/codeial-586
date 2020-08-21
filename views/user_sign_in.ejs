@@ -1,19 +1,43 @@
 <link rel="stylesheet" type="text/css" href="/css/sign_in.css">
 
+
+<%if(success_message != '') {%>
+<div id="successmessage">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong><%= success_message %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<%}%>
+
+<%if(error != '') {%>
+<div id="errormessage">
+    <div class="alert alert-danger alert-dismissible fade show hiha" role="alert">
+        <strong><%= error %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<%}%>
+
 <div class="login my-3">
     <div class="title">Login here</div>
     <div class="subtitle">CODEIAL</div>
-
+  
     
     <div class="fields">
         <form action="/user/create-session" method="POST">
+           
             <div class="username">
                 <input type="email" class="user-input" placeholder="Email" name="email" required>
             </div>
             <div class="password">
                 <input type="password" class="password-input" placeholder="password" name="password" required>
             </div>
-            <Button type="submit" class="btnmain border-0">Login</Button>
+            <Button type="submit" id="btnmain"class="btnmain border-0">Login</Button>
             <div class="link">
                 <a href="#">Forget Password</a> or <a href="/user/sign_up">Sign up </a>
             </div>
@@ -21,4 +45,4 @@
     </div>
 </div>
 
- 
+<script src="/js/usersignin.js"></script>

@@ -1,10 +1,12 @@
+
 body{
+    height: 90vh!important;
     background-color: rgb(226, 226, 226)!important;
 }
-h1{
-    text-align: center;
-    margin: 10px 0px ;
-}
-h3{
-    text-align: center;
+.main{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
