@@ -11,10 +11,10 @@
         <h1 class="text-center">we are in home page bro</h1>
 
         <div class="container">
-            <form action="" id="post_form" method="post">
+            <form action="/post/create" id="post_form" method="POST">
                 <div class="form-group">
                     <label for="post">Post</label>
-                    <textarea class="form-control" id="post" rows="3" placeholder="Type here..."></textarea>
+                    <textarea class="form-control" id="post" rows="3" name="post_content" placeholder="Type here..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
