@@ -1,18 +1,30 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
+
 <body>
-    
+
     <div class="main">
+
+        <%if (locals.user) {%>
+
+        <h1 class="text-center"><%=user.name%></h1>
+
+        <h1 class="text-center">we are in home page bro</h1>
+
+        <div class="container">
+            <form action="" id="post_form" method="post">
+                <div class="form-group">
+                    <label for="post">Post</label>
+                    <textarea class="form-control" id="post" rows="3" placeholder="Type here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <%}else{%>
+
+        <h1 class="text-center">we are in home page bro</h1>
+
+        <%}%>
         
-<%if (locals.user) {%>
-
-    <h1><%=user.name%></h1>
-    
-    <h1>we are in home page bro</h1>
-
-<%}else{%>
-
-    <h1>we are in home page bro</h1>
-
-<%}%>
-</div>
-    </body>
+    </div>
+]</body>
