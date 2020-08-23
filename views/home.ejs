@@ -25,6 +25,19 @@
         <h1 class="text-center">we are in home page bro</h1>
 
         <%}%>
-        
+
+        <div class="container row" id="notes">
+            <% for (let i of post_list){%>
+            <div class="card noteCard" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%=i.user.name%></h5>
+                    <hr>
+                    <!-- <img src="<%=i.user.photo%>" class="card-img-top" alt="..."> -->
+             <p class="card-text"><%=i.content%></p>
+                    
+                </div>
+            </div>
+            <%}%>
+            </div>        
     </div>
-]</body>
+</body>
