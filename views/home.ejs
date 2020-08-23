@@ -14,7 +14,8 @@
             <form action="/post/create" id="post_form" method="POST">
                 <div class="form-group">
                     <label for="post">Post</label>
-                    <textarea class="form-control" id="post" rows="3" name="post_content" placeholder="Type here..."></textarea>
+                    <textarea class="form-control" id="post" rows="3" name="post_content"
+                        placeholder="Type here..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -26,18 +27,49 @@
 
         <%}%>
 
-        <div class="container row" id="notes">
-            <% for (let i of post_list){%>
-            <div class="card noteCard" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><%=i.user.name%></h5>
-                    <hr>
-                    <!-- <img src="<%=i.user.photo%>" class="card-img-top" alt="..."> -->
-             <p class="card-text"><%=i.content%></p>
-                    
+        <div class="container  d-flex flex-wrap" id="notes">
+            <% for (let post of post_list){%>
+                <div class="card noteCard m-4" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><%=post.user.name%></h5>
+                        <hr>
+                        <!-- <img src="<%=post.user.photo%>" class="card-img-top" alt="..."> -->
+                        <p class="card-text"><%=post.content%></p>
+                    </div>
+                    <div class="container">
+                        <%if (locals.user) {%>
+                            <form action="/comment/create_comment" method="POST">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="comment .." aria-label="comment .."
+                                        name="comment_content" aria-describedby="button-addon2" required>
+                                    <input type="hidden" name="post" value="<%=post._id%>">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit" id="button-addon2">add</button>
+                                    </div>
+                                </div>
+                            </form>
+                        <%}%>
+                        <div class="container postcommentlist">
+                            <ul id="post-comment-<%=post._id%>">
+                                <% for (let comment of post.comments){%>
+                                    <li>
+                                            <p>
+                                                <%=comment.content%>
+                                            </p>
+                                            <small>
+                                                <%=comment.user.name%>
+                                            </small>
+                                    </li>
+                                <%}%>
+                            </ul>
+                            
+
+                        </div>
+
+                    </div>
                 </div>
-            </div>
             <%}%>
-            </div>        
+        </div>        
     </div>
+
 </body>

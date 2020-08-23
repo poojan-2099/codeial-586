@@ -1,8 +1,17 @@
 const Post = require('../models/post')
+const Comment = require('../models/comment');
 
 //function for home page
 module.exports.home=function(req,res){
-    Post.find({}).populate('user').exec((err,post)=>{
+    Post.find({})
+    .populate('user')
+    .populate({
+        path:'comments',
+        populate:{
+            path:'user'
+        }
+    })
+    .exec((err,post)=>{
         if(err){
             req.flash('error_message',"Error Post Not Found");
             console.log('post not found');
@@ -14,6 +23,9 @@ module.exports.home=function(req,res){
         });
     });
 };
+
+
+
 module.exports.postUser=function(req,res){
     res.statusCode=200;
     return res.redirect('/user/profile')
