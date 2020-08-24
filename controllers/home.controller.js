@@ -1,5 +1,7 @@
-const Post = require('../models/post')
+const Post = require('../models/post');
 const Comment = require('../models/comment');
+const moment = require('moment');
+const User = require('../models/user');
 
 //function for home page
 module.exports.home=function(req,res){
@@ -17,9 +19,17 @@ module.exports.home=function(req,res){
             console.log('post not found');
             return;
         }
-        return res.render('home.ejs',{
-            title:'Codeial | Home',
-            post_list:post
+        User.find({},(err,user)=>{
+            if(err){
+                console.log('User List not found');
+                return;
+            }
+            return res.render('home.ejs',{
+                title:'Codeial | Home',
+                post_list:post,
+                all_user:user,
+                moment:moment
+            })
         });
     });
 };

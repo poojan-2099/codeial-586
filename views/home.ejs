@@ -1,75 +1,57 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
 
 <body>
-
-    <div class="main">
+    <%if(error != '') {%>
+        <div id="errormessage">
+            <div class="alert alert-danger alert-dismissible fade show hiha" role="alert">
+                <strong><%= error %></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    <%}%>
 
         <%if (locals.user) {%>
-
-        <h1 class="text-center"><%=user.name%></h1>
-
-        <h1 class="text-center">we are in home page bro</h1>
-
-        <div class="container">
-            <form action="/post/create" id="post_form" method="POST">
-                <div class="form-group">
-                    <label for="post">Post</label>
-                    <textarea class="form-control" id="post" rows="3" name="post_content"
-                        placeholder="Type here..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-
+            <h1 class="text-center"><%=user.name%></h1>
+            <h1 class="text-center">we are in home page bro</h1>
+            <hr>
+            <div class="container-fluid row">  
+                <div class="col-10">
+            <div class="container">
+                <form action="/post/create" id="post_form" method="POST">
+                    <div class="form-group">
+                        <label for="post">Post  </label>
+                        <textarea class="form-control" id="post" rows="3" name="post_content" placeholder="Type here..."
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+            </div>
         <%}else{%>
-
-        <h1 class="text-center">we are in home page bro</h1>
-
+            <h1 class="text-center">we are in home page bro</h1>
         <%}%>
-
-        <div class="container  d-flex flex-wrap" id="notes">
-            <% for (let post of post_list){%>
-                <div class="card noteCard m-4" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title"><%=post.user.name%></h5>
-                        <hr>
-                        <!-- <img src="<%=post.user.photo%>" class="card-img-top" alt="..."> -->
-                        <p class="card-text"><%=post.content%></p>
-                    </div>
-                    <div class="container">
-                        <%if (locals.user) {%>
-                            <form action="/comment/create_comment" method="POST">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="comment .." aria-label="comment .."
-                                        name="comment_content" aria-describedby="button-addon2" required>
-                                    <input type="hidden" name="post" value="<%=post._id%>">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="submit" id="button-addon2">add</button>
-                                    </div>
-                                </div>
-                            </form>
-                        <%}%>
-                        <div class="container postcommentlist">
-                            <ul id="post-comment-<%=post._id%>">
-                                <% for (let comment of post.comments){%>
-                                    <li>
-                                            <p>
-                                                <%=comment.content%>
-                                            </p>
-                                            <small>
-                                                <%=comment.user.name%>
-                                            </small>
-                                    </li>
-                                <%}%>
-                            </ul>
-                            
-
-                        </div>
-
-                    </div>
-                </div>
-            <%}%>
-        </div>        
+        <div class="container" id="notes">
+            <%- include('_post.ejs'); -%>
+        </div>
     </div>
+    <%if (locals.user) {%>
+    <div class="col-2">
+        <div class="list-group">
+                <li class="list-group-item list-group-item-info text-center"><strong> F.R.I.E.N.D.S</strong></li>
+            <%for(let u of all_user){%>
+               <%if (user.id != u.id) {%>
+                
+                <a href="/user/profile/<%= u.id %>" class="list-group-item text-info list-group-item-action mb-1 bg-light border-top-0 border-right-0  border-bottom ">
+                    <!-- <img src="<%=u.photo %>" alt=""> -->
+                    <%=u.name%></a>
+                <%}%>
 
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</div>
+
+    <script src="/js/home.js"></script>
 </body>

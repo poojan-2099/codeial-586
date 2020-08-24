@@ -3,15 +3,19 @@ const User = require('../models/user')
 //function for user page profile
 module.exports.userProfile = function (req, res) {
     res.statusCode = 200;
-    return res.render('user_profile.ejs', {
-        title: 'Profile'
+    User.findById(req.params.id,(err,user)=>{
+        if (err) { console.log('error in finding user in profile user'); return }
+        return res.render('user_profile.ejs', {
+            title: ' User Profile',
+            profile_user:user
+        });
     });
 };
 
 //function for user sign up page
 module.exports.signUp = function (req, res) {
     if(req.isAuthenticated()){
-        return res.redirect('/user/profile');
+        return res.redirect('back');
     }
     res.statusCode = 200;
     return res.render('user_sign_up.ejs', {
@@ -22,7 +26,7 @@ module.exports.signUp = function (req, res) {
 //function for user sign in page
 module.exports.signIn = function (req, res) {
     if(req.isAuthenticated()){
-        return res.redirect('/user/profile');
+        return res.redirect('back');
     }
     res.statusCode = 200;
     return res.render('user_sign_in.ejs', {
@@ -56,12 +60,21 @@ module.exports.create = function (req, res) {
 }
 
 //function for user sign in page
-module.exports.loginUser = function (req, res) {
-   
-    return res.redirect('/user/profile');
+module.exports.loginUser = function (req, res) {  
+    return res.redirect('/');
 };
 
 // module.exports.signOut=function(req,res){
 //     req.logout();
 //     return res.redirect('/user/sign_In');
 // }
+
+module.exports.update=(req,res)=>{
+    if(req.user.id==req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,(err,user)=>{
+            return res.redirect('back')
+        });
+    }else{
+        return res.status(401).send('Unauthorized')
+    }
+}

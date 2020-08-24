@@ -8,7 +8,8 @@ const userController= require('../controllers/users_controller')
 //router for home page
 router.get('/sign_Up',userController.signUp);
 router.get('/sign_In',userController.signIn);
-router.get('/profile',passport.checkAuthentication,userController.userProfile);
+router.get('/profile/:id',passport.checkAuthentication,userController.userProfile);
+router.post('/update/:id',passport.checkAuthentication,userController.update);
 router.post('/create', userController.create);
 router.post('/create-session',
             passport.authenticate('local', { failureRedirect: '/user/sign_In',failureFlash:true,}),
