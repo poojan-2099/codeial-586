@@ -1,57 +1,46 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
 
 <body>
-    <%if(error != '') {%>
-        <div id="errormessage">
-            <div class="alert alert-danger alert-dismissible fade show hiha" role="alert">
-                <strong><%= error %></strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    <%}%>
-
-        <%if (locals.user) {%>
-            <h1 class="text-center"><%=user.name%></h1>
-            <h1 class="text-center">we are in home page bro</h1>
-            <hr>
-            <div class="container-fluid row">  
-                <div class="col-10">
-            <div class="container">
-                <form action="/post/create" id="post_form" method="POST">
-                    <div class="form-group">
-                        <label for="post">Post  </label>
-                        <textarea class="form-control" id="post" rows="3" name="post_content" placeholder="Type here..."
-                            required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Post</button>
-                </form>
-            </div>
-        <%}else{%>
-            <h1 class="text-center">we are in home page bro</h1>
-        <%}%>
-        <div class="container" id="notes">
-            <%- include('_post.ejs'); -%>
-        </div>
-    </div>
     <%if (locals.user) {%>
-    <div class="col-2">
-        <div class="list-group">
-                <li class="list-group-item list-group-item-info text-center"><strong> F.R.I.E.N.D.S</strong></li>
-            <%for(let u of all_user){%>
-               <%if (user.id != u.id) {%>
-                
-                <a href="/user/profile/<%= u.id %>" class="list-group-item text-info list-group-item-action mb-1 bg-light border-top-0 border-right-0  border-bottom ">
-                    <!-- <img src="<%=u.photo %>" alt=""> -->
-                    <%=u.name%></a>
+    <h1 class="text-center"><%=user.name%></h1>
+    <h1 class="text-center">we are in home page bro</h1>
+    <hr>
+    <div class="container-fluid row">  
+            <div class="col-10">
+                <div class="container">
+                    <form action="/post/create" id="post_form" method="POST">
+                        <div class="form-group">
+                            <label for="post">Post  </label>
+                            <textarea class="form-control" id="post" rows="3" name="post_content" placeholder="Type here..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
+                </div>
+                <%}else{%>
+                    <h1 class="text-center">we are in home page bro</h1>
                 <%}%>
-
-            <%}%>
+                <div class="container" id="notes_post">
+                    <%- include('_post.ejs'); -%>
+                </div>  
         </div>
-    </div>
-    <%}%>
-</div>
+        <%if (locals.user) {%>
+            <div class="col-2">
+                <div class="list-group">
+                        <li class="list-group-item list-group-item-info  mb-1 text-center"><strong> F.R.I.E.N.D.S</strong></li>
+                    <%for(let u of all_user){%>
+                    <%if (user.id != u.id) {%>
+                        
+                        <a href="/user/profile/<%= u.id %>" class="list-group-item text-info list-group-item-action mb-1 bg-light border-top-0 border-right-0  border-bottom ">
+                            <!-- <img src="<%=u.photo %>" alt=""> -->
+                            <%=u.name%></a>
+                        <%}%>
 
-    <script src="/js/home.js"></script>
+                    <%}%>
+                </div>
+            </div>
+        <%}%>   
+    </div>
+
+<script src="/js/home.js"></script>
 </body>

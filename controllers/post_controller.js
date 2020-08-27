@@ -1,36 +1,51 @@
 const Post = require('../models/post');
 const Comment=require('../models/comment')
 
-module.exports.posting=(req,res)=>{
-    Post.create({
-        content:req.body.post_content,
-        user:req.user._id
-    },(err,post)=>{
-        if(err){
-            req.flash('error','there is an error in posting');
-            console.log('error in post ');
-            return;
-        }
-        return res.redirect('back');
-    });
+module.exports.posting=async (req,res)=>{
+    try {
+       let post=await Post.create({
+            content:req.body.post_content,
+            user:req.user._id
+        });
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    post:post,     
+                },
+                message:"Post created !"
+            });
+        }            
+            req.flash('success_message','Posted Successfully');
+            return res.redirect('back');
+        
+    } catch (error) {
+            req.flash('error','there is an error in posting')
+            return res.redirect('back');
+      
+    }
+  
 }
 
-module.exports.destroy=(req,res)=>{
-    Post.findById(req.params.id,(err,post)=>{
-        if(err){
-            console.log('error in finding post ');
-            return;
+module.exports.destroy=async (req,res)=>{
+    try {
+        let post=await   Post.findById(req.params.id);
+            if(post.user == req.user.id){
+                post.remove();
+                await Comment.deleteMany({post : req.params.id});
+                    if(req.xhr){
+                        return res.status(200).json({
+                            data:{
+                                post_id: req.params.id 
+                            },
+                            message:"Post delted !"
+                        });
+                    }     
+            req.flash('success_message','Deleted Successfully');
+            return res.redirect('back');
         }
-        if(post.user == req.user.id){
-            post.remove();
-            Comment.deleteMany({post : req.params.id},(err)=>{
-                if(err){
-                    console.log('error in deleting post ');
-                    return;
-                }
-                 return res.redirect('back');
-                    
-            });
+        } catch (error) {
+            req.flash('error','there is an error in posting')
+            return res.redirect('back');
         }
-    });
+
 }

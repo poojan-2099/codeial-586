@@ -1,4 +1,122 @@
-// const dateTimeAgo = moment("2020-04-04 11:45:26.123").fromNow();
-// console.log(dateTimeAgo); //> 6 minutes ago
-// let time_comment = document.getElementById('time_comment');
-// time_comment.innerText=dateTimeAgo;
+{
+  
+$('document').ready(()=>{
+
+        //met6hod of creating a post in ajax request
+
+        let createPost = ()=>{
+            let newPost=$('#post_form');
+            newPost.on('submit',(e)=>{
+                e.preventDefault();
+                
+                $.ajax({
+                    url:'/post/create',
+                    method:'POST',
+                    data: newPost.serialize(),
+                    success:function(data){
+                      let newPostData=newPostDom(data.data.post);
+                      $('#notes_post').prepend(newPostData);
+                      deletePost($(' .delete_post_button', newPostData));
+                      console.log('ello');
+                    },
+                    error:function(error){
+                        console.log(error.responseText);
+                    }
+                });
+                $("#post_form")[0].reset();
+            });
+        }
+       let newPostDom= (post)=>{
+            return $(`<div id="post_${post._id}" class="card my-3">
+            <div class="card-body">
+                <div class="card-header d-flex justify-content-between ">
+                    <h5 class="">${post.user.name}</h5>
+                  
+                    <a class="delete_post_button" href="/post/destroy/${post._id}">
+                        <h5 class="text-right"><i class="fas fa-trash"></i></h5>
+                    </a>
+                    
+                </div>
+            
+                <!-- <img src="<%=post.user.photo%>" class="card-img-top" alt="..."> -->
+                    <h5 class="card-text mt-3"><i class="fas fa-comments mr-4"></i> ${post.content}</h5>
+    
+                    <sub class="text-muted ml-5  ">${moment(post.createdAt).fromNow().charAt(0).toUpperCase()+moment(post.createdAt).fromNow().slice(1)}</sub>
+                   
+                   
+            </div>
+            <div class="container-fluid">
+                <div class="row bootstrap snippets bootdeys">
+                    <div class="col" id="#card">
+                        <div class="comment-wrapper">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                  
+                                    <form action="/comment/create_comment" method="POST">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="comment .."
+                                                aria-label="comment .." name="comment_content"
+                                                aria-describedby="button-addon2" required>
+                                            <input type="hidden" name="post" value="${post._id}">
+    
+                                            <div class="input-group-append">
+                                                <button class="btn" type="submit" id="button-addon2"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                        width="35" height="35" viewBox="0 0 172 172"
+                                                        style=" fill:#000000; margin-top:-7px">
+                                                        <g fill="none" fill-rule="nonzero" stroke="none"
+                                                            stroke-width="1" stroke-linecap="butt"
+                                                            stroke-linejoin="miter" stroke-miterlimit="10"
+                                                            stroke-dasharray="" stroke-dashoffset="0"
+                                                            font-family="none" font-weight="none" font-size="none"
+                                                            text-anchor="none" style="mix-blend-mode: normal">
+                                                            <path d="M0,172v-172h172v172z" fill="none"></path>
+                                                            <g fill="#302f2f">
+                                                                <path
+                                                                    d="M28.66667,17.2c-3.16643,0 -5.73333,2.5669 -5.73333,5.73333c0.00121,0.51864 0.07278,1.03472 0.21276,1.53411c0.0037,0.01121 0.00743,0.02241 0.0112,0.03359l5.50938,38.56563l-17.2,11.46667l120.4,11.46667l-120.4,11.46667l17.2,11.46667l-5.50938,38.57683c-0.14579,0.50609 -0.22115,1.02985 -0.22396,1.55651c0,3.16643 2.5669,5.73333 5.73333,5.73333c0.76223,-0.00413 1.51599,-0.16021 2.21719,-0.45911l0.0112,0.0112l0.24635,-0.12317l0.12318,-0.05599c0.03378,-0.01833 0.06738,-0.03699 0.10078,-0.05599l125.67422,-62.83151l0.0112,-0.02239c2.10882,-0.90013 3.47854,-2.97014 3.48255,-5.26302c-0.00144,-2.29965 -1.37681,-4.37592 -3.49375,-5.27422c0,-0.00373 0,-0.00746 0,-0.0112h-0.0112l-125.61823,-62.80911c-0.16728,-0.09443 -0.3392,-0.18038 -0.5151,-0.25755c-0.70546,-0.29652 -1.46314,-0.44882 -2.22839,-0.44792z">
+                                                                </path>
+                                                            </g>
+                                                        </g>
+                                                </svg></button>
+                                            </div>
+                                        </div>
+                                    </form>
+        
+                                    <hr>
+                                        <ul class="media-list" id="post-comment-${post._id}">
+                                      
+                                        </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`);
+       }
+
+       //met6hod of deleting a post in ajax request
+
+
+       let deletePost = (deleteLink)=>{
+           $(deleteLink).click((e)=>{
+            e.preventDefault();
+            console.log('hello');
+               $.ajax({
+                   method:'get',
+                   url:$(deleteLink).prop('href'),
+                   success:(data)=>{
+                      console.log(data);
+                    $(`#post_${data.data.post_id}`).remove();
+                   },
+                   error:function(error){
+                    console.log(error.responseText);
+                }
+               });
+           });
+       }
+
+        createPost();
+       
+    });
+}

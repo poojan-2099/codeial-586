@@ -1,15 +1,19 @@
 const User = require('../models/user')
 
 //function for user page profile
-module.exports.userProfile = function (req, res) {
-    res.statusCode = 200;
-    User.findById(req.params.id,(err,user)=>{
-        if (err) { console.log('error in finding user in profile user'); return }
+module.exports.userProfile =async function (req, res) {
+    try {
+        let user =await User.findById(req.params.id);
+        
         return res.render('user_profile.ejs', {
             title: ' User Profile',
             profile_user:user
         });
-    });
+    } catch (error) {
+        console.log('error in finding user in profile user'); 
+        return res.redirect('back');
+    }
+    
 };
 
 //function for user sign up page
@@ -37,7 +41,7 @@ module.exports.signIn = function (req, res) {
 //function for user sign in page
 module.exports.create = function (req, res) {
     if (req.body.password != req.body.confirm_password) {
-        req.flash(`error_message`,`password Doesn't match please try again`);
+        req.flash(`error`,`password Doesn't match please try again`);
         return res.redirect('back');
     }
     User.findOne({ email: req.body.email }, function (err, user) {

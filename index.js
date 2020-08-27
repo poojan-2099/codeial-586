@@ -11,7 +11,9 @@ const mongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');
 const sassMiddleware = require('node-sass-middleware');
-const nocache = require('nocache')
+const nocache = require('nocache');
+const moment = require('moment');
+
 // const path = require('path');
 
 app.use(sassMiddleware({

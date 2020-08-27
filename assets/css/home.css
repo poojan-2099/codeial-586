@@ -26,3 +26,12 @@ img{
     
     border-radius: 10%;
 }
+.user_img{
+    width: 60%;
+    
+}
+.user_img img{
+    width: 6%;
+    height: 100%;
+    
+}
