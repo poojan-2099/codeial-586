@@ -13,8 +13,21 @@ module.exports.commenting= async (req,res)=>{
             post:req.body.post
             
         });
-         post.comments.push(comment);
-         post.save();
+        post.comments.push(comment);
+        post.save();
+        if(req.xhr){
+            comment = await comment.populate('user', 'name').execPopulate();
+           
+            return res.status(200).json({
+                data:{
+                    post:post.comments, 
+                    comment:comment    
+                },
+                message:"Post created !"
+            });
+         
+        }   
+       
          return res.redirect('back');
         };
     }
@@ -33,7 +46,21 @@ module.exports.destroy=async (req,res)=>{
            
             let postId= comment.post;
             comment.remove();
-            let post = await Post.findByIdAndUpdate(postId,{$pull:{commnets:req.params.id}});
+           
+            if(req.xhr)
+            {
+                let post = await Post.findByIdAndUpdate(postId,{$pull:{commnets:req.params.id}});
+               
+                return res.status(200).json(
+                    {
+                        data:
+                        {
+                            comment_id:req.params.id,
+                        },
+                        message:'Comment deleted!'
+                    }
+                )
+            }
             req.flash('success_message','Comment deleted successfully')
                 return res.redirect('back');
             

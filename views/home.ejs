@@ -21,7 +21,10 @@
                     <h1 class="text-center">we are in home page bro</h1>
                 <%}%>
                 <div class="container" id="notes_post">
-                    <%- include('_post.ejs'); -%>
+                  
+                    <% for (post of post_list) { %>
+                        <%- include('_post') -%>
+                    <% } %>
                 </div>  
         </div>
         <%if (locals.user) {%>
@@ -29,8 +32,7 @@
                 <div class="list-group">
                         <li class="list-group-item list-group-item-info  mb-1 text-center"><strong> F.R.I.E.N.D.S</strong></li>
                     <%for(let u of all_user){%>
-                    <%if (user.id != u.id) {%>
-                        
+                        <%if (user.id != u.id) {%>
                         <a href="/user/profile/<%= u.id %>" class="list-group-item text-info list-group-item-action mb-1 bg-light border-top-0 border-right-0  border-bottom ">
                             <!-- <img src="<%=u.photo %>" alt=""> -->
                             <%=u.name%></a>

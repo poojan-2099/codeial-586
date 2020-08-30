@@ -1,0 +1,23 @@
+<li class="media" id="post-comment-<%=comment._id%>">
+    <a href="#" class="pull-left">
+        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""
+            class="img-circle">
+    </a>
+    <div class="media-body mx-2">
+        <strong class="text-success"> <%=comment.user.name%></strong>
+        <br>
+        <sup class="text-muted pull-right ">
+            <small class="text-muted" id="time_comment"><%=moment(comment.createdAt).fromNow().charAt(0).toUpperCase()+moment(comment.createdAt).fromNow().slice(1)%></small>
+        </sup>
+        <p>
+            <%=comment.content%>
+        </p>
+    </div>
+    <%if (locals.user){%>
+        <%if (locals.user.id==comment.user.id || locals.user.id==post.user.id) { %>
+            <a class="delete_comment_button" href="/comment/destroy/<%=comment.id%>">
+                <h5 class="text-right"><i class="fas fa-trash"></i></h5>
+            </a>
+        <%}%>
+    <%}%>
+</li>

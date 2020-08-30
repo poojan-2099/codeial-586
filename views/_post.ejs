@@ -1,4 +1,4 @@
-<% for (let post of post_list){%>
+
     <div id="post_<%=post._id%>" class="card my-3">
         <div class="card-body">
             <div class=" card-header d-flex justify-content-between ">
@@ -9,19 +9,14 @@
                         <sub class="text-muted"><%=moment(post.createdAt).fromNow().charAt(0).toUpperCase()+moment(post.createdAt).fromNow().slice(1)%></sub>
                     </div>
                 </div>
-                <!-- <p class=""><%=post.user.email%></p> -->
-                <%if (locals.user && locals.user.id==post.user.id){%>
-                <a class="delete_post_button" href="/post/destroy/<%=post.id%>">
-                    <h5 class="text-right"><i class="fas fa-trash"></i></h5>
-                </a>
-                <%}%>
-            </div>
-        
-           
-                <h5 class="card-text mt-3"><i class="fas fa-comments mr-4"></i> <%=post.content%></h5>
-
-               
-               
+                    <!-- <p class=""><%=post.user.email%></p> -->
+                    <%if (locals.user && locals.user.id==post.user.id){%>
+                        <a class="delete_post_button" href="/post/destroy/<%=post.id%>">
+                            <h5 class="text-right"><i class="fas fa-trash"></i></h5>
+                        </a>
+                    <%}%>
+            </div>     
+               <h5 class="card-text mt-3"><i class="fas fa-comments mr-4"></i> <%=post.content%></h5>
         </div>
         <div class="container-fluid">
             <div class="row bootstrap snippets bootdeys">
@@ -30,7 +25,7 @@
                         <div class="card border-0">
                             <div class="card-body">
                                 <%if (locals.user) {%>
-                                <form action="/comment/create_comment" method="POST">
+                                <form id="comment_form" class="comment_form"action="/comment/create_comment" method="POST">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder="comment .."
                                             aria-label="comment .." name="comment_content"
@@ -38,7 +33,7 @@
                                         <input type="hidden" name="post" value="<%=post._id%>">
 
                                         <div class="input-group-append">
-                                            <button class="btn" type="submit" id="button-addon2"><svg
+                                            <button class="btn  shadow-none" type="submit" id="button-addon2"><svg
                                                     xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                                     width="35" height="35" viewBox="0 0 172 172"
                                                     style=" fill:#000000; margin-top:-7px">
@@ -62,30 +57,8 @@
                                 <%}%>
                                 <hr>
                                 <ul class="media-list" id="post-comment-<%=post._id%>">
-                                    <% for (let comment of post.comments){%>
-                                    <li class="media">
-                                        <a href="#" class="pull-left">
-                                            <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""
-                                                class="img-circle">
-                                        </a>
-                                        <div class="media-body mx-2">
-                                            <strong class="text-success"> <%=comment.user.name%></strong>
-                                            <br>
-                                            <sup class="text-muted pull-right ">
-                                                <small class="text-muted" id="time_comment"><%=moment(comment.createdAt).fromNow().charAt(0).toUpperCase()+moment(comment.createdAt).fromNow().slice(1)%></small>
-                                            </sup>
-                                            <p>
-                                                <%=comment.content%>
-                                            </p>
-                                        </div>
-                                        <%if (locals.user){%>
-                                            <%if (locals.user.id==comment.user.id || locals.user.id==post.user.id){%>
-                                                <a href="/comment/destroy/<%=comment.id%>">
-                                                    <h5 class="text-right"><i class="fas fa-trash"></i></h5>
-                                                </a>
-                                            <%}%>
-                                        <%}%>
-                                    </li>
+                                    <% for (comment of post.comments){%>
+                                       <%- include('_comment') -%>
                                     <%}%>
                                 </ul>
                             </div>
@@ -95,4 +68,4 @@
             </div>
         </div>
     </div>
-<%}%>
+
