@@ -20,7 +20,7 @@ module.exports.home= async function(req,res){
         let user = await User.find({});
     
         return res.render('home.ejs',{
-            title:'Codeial | Home',
+            title:'Apix | Home',
             post_list:post,
             all_user:user,
             moment:moment

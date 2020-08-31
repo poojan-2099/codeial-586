@@ -1,14 +1,20 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
 
 <body>
+    <div class="main">
     <%if (locals.user) {%>
     <h1 class="text-center"><%=user.name%></h1>
     <h1 class="text-center">we are in home page bro</h1>
     <hr>
-    <div class="container-fluid row">  
-            <div class="col-10">
+    <div class="container ">  
+        <div class=" row">
+            <div class="col-9">
                 <div class="container">
-                    <form action="/post/create" id="post_form" method="POST">
+                    <form action="/post/create" id="post_form" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="postimg">Post</label>
+                            <input type="file" class="form-control-file" accept="image/*" name="postimg" id="postimg" placeholder="Add Image">
+                          </div>
                         <div class="form-group">
                             <label for="post">Post  </label>
                             <textarea class="form-control" id="post" rows="3" name="post_content" placeholder="Type here..."
@@ -28,13 +34,13 @@
                 </div>  
         </div>
         <%if (locals.user) {%>
-            <div class="col-2">
+            <div class="col-3">
                 <div class="list-group">
                         <li class="list-group-item list-group-item-info  mb-1 text-center"><strong> F.R.I.E.N.D.S</strong></li>
                     <%for(let u of all_user){%>
                         <%if (user.id != u.id) {%>
                         <a href="/user/profile/<%= u.id %>" class="list-group-item text-info list-group-item-action mb-1 bg-light border-top-0 border-right-0  border-bottom ">
-                            <!-- <img src="<%=u.photo %>" alt=""> -->
+                            <img class="home-img" src="<%=u.avatar %>" alt="">
                             <%=u.name%></a>
                         <%}%>
 
@@ -43,6 +49,7 @@
             </div>
         <%}%>   
     </div>
-
+    </div>
+</div>
 <script src="/js/home.js"></script>
 </body>

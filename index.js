@@ -29,6 +29,8 @@ app.use(cookieParser());
 
 app.use(express.static('./assets'));
 
+//make upload folder awailable to browser
+app.use('/upload',express.static(__dirname+'/upload'));
 app.use(expressLayouts);
 //exrtract style and script feom subpages to layout page
 app.set('layout extractStyles', true);

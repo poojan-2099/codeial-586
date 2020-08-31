@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class=" card-header d-flex justify-content-between ">
                 <div class="user_img d-flex">
-                    <img src="https://bootdey.com/img/Content/user_1.jpg" alt="<%=post.user.name%>" class="img-circle">
+                    <img src="<%=post.user.avatar%>" alt="<%=post.user.name%>" class="img-circle">
                     <div class=" d-flex flex-column mx-3">
                         <h5 class=""><%=(post.user.name).charAt(0).toUpperCase()+(post.user.name).slice(1)%></h5>
                         <sub class="text-muted"><%=moment(post.createdAt).fromNow().charAt(0).toUpperCase()+moment(post.createdAt).fromNow().slice(1)%></sub>
@@ -16,6 +16,9 @@
                         </a>
                     <%}%>
             </div>     
+       
+            <!-- <img src="<%=post.postimg%>" class="card-img-top" alt="..."> -->
+            
                <h5 class="card-text mt-3"><i class="fas fa-comments mr-4"></i> <%=post.content%></h5>
         </div>
         <div class="container-fluid">

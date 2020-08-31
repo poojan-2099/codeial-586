@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
-const AVATAR_PATH= path.join('/upload/user/avatars')
+const AVATAR_PATH= path.join('/upload/user/avatars');
+const helpers = require('helpers');
+const imageFilter = require('../config/middleware');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -17,9 +19,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    bio:{
+        type:String
+    },
     avatar:{
         type:String
-    }
+    },
+    posts:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Post'
+        }
+    ]
+
 }, {
     timestamps: true
 });
@@ -37,7 +49,7 @@ let storage = multer.diskStorage({
 
 //static function for multer
 
-userSchema.statics.uploadedAvatar = multer({ storage: storage }).single('avatar');
+userSchema.statics.uploadedAvatar = multer({ storage: storage, limits: { fileSize: 2 * 1024 * 1024  },fileFilter:helpers.imageFilter }).single('avatar');
 userSchema.statics.avatarPath=AVATAR_PATH;
 
 

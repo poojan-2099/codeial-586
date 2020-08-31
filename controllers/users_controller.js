@@ -1,9 +1,18 @@
-const User = require('../models/user')
+const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
+
 
 //function for user page profile
 module.exports.userProfile =async function (req, res) {
     try {
-        let user =await User.findById(req.params.id);
+        let user =await User.findById(req.params.id) 
+        .populate({
+            path:'posts',options: {sort:{"createdAt": "descending"}},
+            populate:{
+                path:'user'
+            }
+        });;
         
         return res.render('user_profile.ejs', {
             title: ' User Profile',
@@ -81,16 +90,27 @@ module.exports.update=async (req,res)=>{
     // }else{
     //     return res.status(401).send('Unauthorized')
     // }
-    if(req.user.id == req.params.id){
+ if(req.user.id == req.params.id){
         try {
             let user =await User.findById(req.params.id);
             User.uploadedAvatar(req,res,(err)=>{
                 if (err) { 
+                    req.flash('error','upload file under 2024kb ')
                     console.log('Error in multer',err); 
-                return }
+                return res.redirect('back');
+             }
                user.name= req.body.name;
                user.email= req.body.email;
+               user.bio = req.body.bio;
                if (req.file) {
+                if (user.avatar)
+                {
+                    if (fs.existsSync(path.join(__dirname, '..', user.avatar)))
+                    {
+                        fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                    }
+                }
+
                    //this is saving a path of uploaded file into the avatar field in the user
                    user.avatar = User.avatarPath+'/'+req.file.filename;
                    

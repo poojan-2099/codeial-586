@@ -1,12 +1,12 @@
-body{margin-top:20px;}
+.main{margin-top:20px;}
 
 .comment-wrapper {
     overflow:auto;
 }
 
 .comment-wrapper .media-list .media img {
-    width:64px;
-    height:64px;
+    width:40px;
+    height:40px;
     border:2px solid #e5e7e8;
 }
 
@@ -21,17 +21,18 @@ body{margin-top:20px;}
 svg :hover{
     fill: rgb(13 128 183);
 }
-img{
-    width: 27%;
-    
+.home-img{
+    width: 3rem;
     border-radius: 10%;
+    height: 3rem;
 }
 .user_img{
     width: 60%;
+
     
 }
 .user_img img{
-    width: 6%;
-    height: 100%;
+    width: 50px;
+    height: 50px;
     
 }
