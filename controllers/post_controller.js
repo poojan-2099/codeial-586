@@ -6,6 +6,7 @@ const path = require('path');
 
 module.exports.posting=async (req,res)=>{
     try {
+     
   
         let post= await Post.create({
             content:req.body.post_content,
@@ -13,17 +14,14 @@ module.exports.posting=async (req,res)=>{
            
         })
         Post.uploadedPostImg(req,res,(err)=>{ 
+            if (err) { 
+                req.flash('error','upload file under 2024kb ')
+                console.log('Error in post upload',err); 
+            return}
             if (req.file) {
-            if (post.postimg)
-            {
-                if (fs.existsSync(path.join(__dirname, '..', post.postimg)))
-                {
-                    fs.unlinkSync(path.join(__dirname, '..', post.postimg));
-                }
-            }
-
+                console.log(req.file)
                //this is saving a path of uploaded file into the avatar field in the user
-               post.postimg = Post.postPath+'/'+req.file.filename;
+               post.post_img = Post.postPath+'/'+req.file.filename;
                
            }
         })

@@ -15,6 +15,7 @@ $('document').ready(()=>{
                     data: newPost.serialize(),
                     success:function(data){
                       let newPostData=newPostDom(data.data.post);
+                      console.log(data.data.post)
                       $('#notes_post').prepend(newPostData);
                       deletePost($(' .delete_post_button', newPostData));
                       callNotysuccess('Posted Successfully !');
@@ -105,7 +106,7 @@ $('document').ready(()=>{
        let deletePost = (deleteLink)=>{
            $(deleteLink).click((e)=>{
             e.preventDefault();
-            console.log('hello');
+
                $.ajax({
                    method:'get',
                    url:$(deleteLink).prop('href'),
@@ -149,11 +150,10 @@ apply_dynamic_delete_to_existing_posts();
                 method:'POST',
                 data: comment_form.serialize(),
                 success:function(data){
-                    console.log(data);
                   
                   let newComment=newCommentDom(data.data.comment);
                   $(`#post-comment-${data.data.comment.post}`).prepend(newComment);
-                  console.log(newComment)
+                  
                   deleteComment($(' .delete_comment_button', newComment));
 
                   callNotysuccess('Commented Successfully !');
@@ -196,7 +196,7 @@ apply_dynamic_delete_to_existing_posts();
 //request of deleting comment with ajax request !!
 
 let deleteComment = (deleteLink)=>{
-    console.log('delete link ',deleteLink)
+  
     $(deleteLink).click((event)=>{
         event.preventDefault();
     

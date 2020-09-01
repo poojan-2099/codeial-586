@@ -13,6 +13,9 @@ const postSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    post_img:{
+        type:String,
+    },
     //include the id of all commnets in this post schema as array of aobject
     comments:[
         {
@@ -20,9 +23,7 @@ const postSchema = new mongoose.Schema({
             ref:'Comment'
         }
     ],
-    postimg:{
-        type:String
-    }
+  
 
     
     
@@ -37,10 +38,10 @@ let storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + Date.now());
     }
 });
-
+//submit kahan h?
 //static function for multer
 
-postSchema.statics.uploadedPostImg = multer({ storage: storage }).single('postimg');
+postSchema.statics.uploadedPostImg = multer({ storage: storage }).single('post_img');
 postSchema.statics.postPath=POST_PATH;
 
 const Post = mongoose.model('Post', postSchema);

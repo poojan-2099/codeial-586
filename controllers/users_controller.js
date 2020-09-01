@@ -92,6 +92,7 @@ module.exports.update=async (req,res)=>{
     // }
  if(req.user.id == req.params.id){
         try {
+           
             let user =await User.findById(req.params.id);
             User.uploadedAvatar(req,res,(err)=>{
                 if (err) { 
