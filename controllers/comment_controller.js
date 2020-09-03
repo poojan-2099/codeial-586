@@ -16,7 +16,7 @@ module.exports.commenting= async (req,res)=>{
         post.comments.push(comment);
         post.save();
         if(req.xhr){
-            comment = await comment.populate('user', 'name').execPopulate();
+            comment = await comment.populate('user', ['name','avatar']).execPopulate();
            
             return res.status(200).json({
                 data:{
@@ -39,42 +39,70 @@ module.exports.commenting= async (req,res)=>{
     
 }
 
-module.exports.destroy=async (req,res)=>{
-    try {
-        let comment=await  Comment.findById(req.params.id).populate('post');
-        if(comment.user == req.user.id || comment.post.user == req.user.id){
+// module.exports.destroy=async (req,res)=>{
+//     try {
+//         let comment=await  Comment.findById(req.params.id).populate('post');
+//         if(comment.user == req.user.id || comment.post.user == req.user.id){
            
-            let postId= comment.post;
-            comment.remove();
-           
-            if(req.xhr)
-            {
-                let post = await Post.findByIdAndUpdate(postId,{$pull:{commnets:req.params.id}});
-               
-                return res.status(200).json(
-                    {
-                        data:
-                        {
-                            comment_id:req.params.id,
-                        },
-                        message:'Comment deleted!'
-                    }
-                )
-            }
-            req.flash('success_message','Comment deleted successfully')
-                return res.redirect('back');
+//             let postId= comment.post._id;
+//             console.log('postid',postId)
+//             comment.remove();
             
-        }else{
-            return res.redirect('back');
-        }
+//             // await Post.findByIdAndUpdate(postId, {$pull:{commnets:req.params.id}});
+//             console.log('true,',Post.findByIdAndUpdate(postId, { $pull : {comments : req.params.id } }))
+//             if(req.xhr)
+//             {
+//                 Post.findByIdAndUpdate(postId, { $pull : {comments : req.params.id } });
+               
+//                 return res.status(200).json(
+//                     {
+//                         data:
+//                         {
+//                             comment_id:req.params.id,
+//                         },
+//                         message:'Comment deleted!'
+//                     }
+//                 )
+//             }
+//             req.flash('success_message','Comment deleted successfully')
+//                 return res.redirect('back');
+            
+//         }else{
+//             return res.redirect('back');
+//         }
           
-    } catch (error) {
-        console.log('Error !! in Creating Comment ');
-        return res.redirect('back');
-    }
+//     } catch (error) {
+//         console.log('Error !! in Creating Comment ');
+//         return res.redirect('back');
+//     }
         
-    }
+//     }
   
-
-
+    module.exports.destroy = function(req,res){
+ 
+        Comment.findById(req.params.id , function(err , comment){
+            if(comment.user == req.user.id || comment.post.user == req.user.id){
+                let postid = comment.post;
+               
+                comment.remove();
+                
+                Post.findByIdAndUpdate(postid, { $pull : {comments : req.params.id } }, function(err , post){
+                    if(req.xhr){
+                        
+                        return res.status(200).json({
+                            data : {
+                                comment_id:req.params.id,
+                            },
+                            message : 'Comment Deleted by AJAX !'
+                        })
+                    }
+    
+                    req.flash('success_message','Comment deleted successfully')
+                    return res.redirect('back');
+                })
+            }else{
+                return res.redirect('back')
+            }
+        });
+    }
 

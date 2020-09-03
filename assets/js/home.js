@@ -12,7 +12,8 @@ $('document').ready(()=>{
                 $.ajax({
                     url:'/post/create',
                     method:'POST',
-                    data: newPost.serialize(),
+                  
+                    data:newPost.serialize(),
                     success:function(data){
                       let newPostData=newPostDom(data.data.post);
                       console.log(data.data.post)
@@ -29,13 +30,25 @@ $('document').ready(()=>{
                 $("#post_form")[0].reset();
             });
         }
+
+        //met6hod of creating a post in ajax request
+
+       
 //html of ajax post 
 
        let newPostDom= (post)=>{
             return $(`<div id="post_${post._id}" class="card my-3">
             <div class="card-body">
                 <div class="card-header d-flex justify-content-between ">
-                    <h5 class="">${post.user.name}</h5>
+                <div class="user_img d-flex">
+                    <img src="${post.user.avatar}" alt="${post.user.name}" class="img-circle">
+                    <div class=" d-flex flex-column mx-3">
+                        <h5 class="">${(post.user.name).charAt(0).toUpperCase()+(post.user.name).slice(1)}</h5>
+                    <sub class="text-muted">${moment(post.createdAt).fromNow().charAt(0).toUpperCase()+moment(post.createdAt).fromNow().slice(1)}</sub>
+                       
+                    </div>
+                </div>
+                   
                   
                     <a class="delete_post_button" href="/post/destroy/${post._id}">
                         <h5 class="text-right"><i class="fas fa-trash"></i></h5>
@@ -43,10 +56,9 @@ $('document').ready(()=>{
                     
                 </div>
             
-                <!-- <img src="<%=post.user.photo%>" class="card-img-top" alt="..."> -->
+                <img src="${post.post_img}" class="card-img-top" alt="..."> 
                     <h5 class="card-text mt-3"><i class="fas fa-comments mr-4"></i> ${post.content}</h5>
     
-                    <sub class="text-muted ml-5  ">${moment(post.createdAt).fromNow().charAt(0).toUpperCase()+moment(post.createdAt).fromNow().slice(1)}</sub>
                    
                    
             </div>
@@ -133,7 +145,7 @@ let apply_dynamic_delete_to_existing_posts = function ()
         deletePost(link);
     }
 }
-//delete all xisting post dimnamicaly
+//delete all existing post dimnamicaly
        
 apply_dynamic_delete_to_existing_posts();
 
@@ -149,6 +161,7 @@ apply_dynamic_delete_to_existing_posts();
                 url:'/comment/create_comment',
                 method:'POST',
                 data: comment_form.serialize(),
+             
                 success:function(data){
                   
                   let newComment=newCommentDom(data.data.comment);
@@ -164,7 +177,7 @@ apply_dynamic_delete_to_existing_posts();
 
                 }
             });
-            $("#comment_form")[0].reset();
+            comment_form[0].reset();
         });
        }
 
@@ -173,8 +186,7 @@ apply_dynamic_delete_to_existing_posts();
      let newCommentDom= (comment)=>{
            return `<li class="media"  id="post-comment-${comment._id}">
            <a href="#" class="pull-left">
-               <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""
-                   class="img-circle">
+               <img src="${comment.user.avatar}" alt="" class="img-circle">
            </a>
            <div class="media-body mx-2">
                <strong class="text-success"> ${comment.user.name}</strong>
@@ -256,10 +268,9 @@ apply_dynamic_delete_to_existing_comment();
         }
 
         createPost();
+        createPostimg();
         createComment();
     });
 }
 
 
-// ye toh bilkul ji alg likha hua h tumne -> ajax function kidhr h yaaha
-//dikhata hu
