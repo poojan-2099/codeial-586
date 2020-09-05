@@ -15,5 +15,18 @@ router.post('/create-session',
             passport.authenticate('local', { failureRedirect: '/user/sign_In',failureFlash:true,}),
             userController.loginUser);
 // router.get('/sign-out',userController.signOut);
+router.get('/auth/google',
+            passport.authenticate('google', { scope: ['profile','email'] }));
+
+router.get('/auth/google/callback', 
+            passport.authenticate('google', { failureRedirect: '/user/sign_In' }),
+            userController.loginUser );
+
+router.get('/auth/facebook',
+            passport.authenticate('facebook', { scope: ['profile','email'] }));
+
+router.get('/auth/facebook/callback',
+            passport.authenticate('facebook', { failureRedirect: '/user/sign_In'  }),
+            userController.loginUser );
 
 module.exports=router;
