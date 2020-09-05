@@ -105,7 +105,7 @@
 
 		<div class="gallery">
 <%for(let img of profile_user.posts){%>
-	<%if(img.post_img!='undefined'){%>
+	<%if(img.post_img!=null){%>
 			<div class="gallery-item" tabindex="0">
 
 				<img src="<%=img.post_img%>" class="gallery-image" alt="">

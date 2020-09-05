@@ -6,8 +6,6 @@ const path = require('path');
 
 module.exports.posting = async (req, res) => {
     try {
-
-       
             let post = await Post.create({
                 content: req.body.post_content,
                 user: req.user._id,
@@ -21,7 +19,7 @@ module.exports.posting = async (req, res) => {
           
             
              if (req.xhr) {
-                console.log(post)
+               
                 post = await post.populate('user', ['name', 'avatar']).execPopulate();
                 return res.status(200).json({
                     data: {

@@ -7,7 +7,6 @@ const postSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true,
-       
     },
     user:{
         type:mongoose.Schema.Types.ObjectId,
@@ -43,6 +42,8 @@ let storage = multer.diskStorage({
 
 postSchema.statics.uploadedPostImg = multer({ storage: storage }).single('post_img');
 postSchema.statics.postPath=POST_PATH;
+
+
 
 const Post = mongoose.model('Post', postSchema);
 
