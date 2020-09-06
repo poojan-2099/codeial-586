@@ -7,16 +7,21 @@ const User = require('../models/user');
 passport.use(new FacebookStrategy({
     clientID: '626911698238686',
     clientSecret: '0d2fd2e2a72817d037276c19e2d2934b',
-    callbackURL: "http://localhost:8000/user/auth/facebook/callback"
+    callbackURL: "http://localhost:8000/user/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos', 'emails','gender'],
+    passReqToCallback:true,
   },
-  function(accessToken, refreshToken, profile, cb) {
-        //find user by email in databaase with check of google profile email arrsay first email
-        User.findOne({ email: profile.emails[0].value }).exec(function (err, user) {
+  function(req,accessToken, refreshToken, profile, cb) {
+//         //find user by email in databaase with check of google profile email arrsay first email
+     
+        User.findOne({  facebookId:profile.id}).exec(function (err, user) {
             if (err) {
                 console.log('Error in finding User google--> Passport',err)
                 return ;
             }
+            console.log(accessToken);
             console.log(profile);
+
             if(user){
                 return cb(null, user);
             }
@@ -24,9 +29,10 @@ passport.use(new FacebookStrategy({
             else{
                 User.create({
                     name:profile.displayName,
-                    email:profile.emails[0].value,
+                    email:profile.id,
                     password:crypto.randomBytes(20).toString('hex'),
-                    avatar:profile.photos[0].value
+                    avatar:profile.photos[0].value,
+                    facebookId:profile.id
                 },function (err, user) {
                     if (err) {
                         console.log('Error in creating User google--> Passport',err)
@@ -36,7 +42,7 @@ passport.use(new FacebookStrategy({
                 })
             }
         });
-   
+    
   }
 ));
 module.exports= passport;

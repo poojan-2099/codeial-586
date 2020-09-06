@@ -23,10 +23,11 @@ router.get('/auth/google/callback',
             userController.loginUser );
 
 router.get('/auth/facebook',
-            passport.authenticate('facebook', { scope: ['profile','email'] }));
+            passport.authenticate('facebook', { scope: ['public_profile','email','user_friends'] }));
 
 router.get('/auth/facebook/callback',
             passport.authenticate('facebook', { failureRedirect: '/user/sign_In'  }),
             userController.loginUser );
+
 
 module.exports=router;

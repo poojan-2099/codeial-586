@@ -7,10 +7,11 @@ const User = require('../models/user');
 passport.use(new GoogleStrategy({
     clientID:'355677701312-o8sjeqntr8009qma5u348n3em58586vh.apps.googleusercontent.com',
     clientSecret: '7IPDLBe-MT-NckXIJRwm4LRb',
-    callbackURL: "http://localhost:8000/user/auth/google/callback"
+    callbackURL: "http://localhost:8000/user/auth/google/callback",
+    passReqToCallback:true,
   },
 //accesstoken and refresh token are use for authorization check by google
-  function(accessToken, refreshToken, profile, cb) {
+  function(req,accessToken, refreshToken, profile, cb) {
       //find user by email in databaase with check of google profile email arrsay first email
     User.findOne({ email: profile.emails[0].value }).exec(function (err, user) {
         if (err) {

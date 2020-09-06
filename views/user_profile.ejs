@@ -58,7 +58,10 @@
                       </div>
                       <div class="form-group">
                         <label for="avatar">Profile Photo</label>
-                        <input type="file" class="form-control-file" accept="image/*" name="avatar" id="avatar">
+                        <input type="file" class="form-control-file" onchange="readURL(this)" accept="image/*" name="avatar" id="avatar">
+                      
+                        <img id="blah" src="#" alt="your image" />
+                      
 					  </div>
 					  <p class="text-danger">*Note : Image Should be below 2 mb /2024 kb </p>
                       <div class="modal-footer">
@@ -139,6 +142,6 @@
   <%}%>
   
 </div>
-
+<script src="/js/user_profile.js"></script>
   </body>
 </html>

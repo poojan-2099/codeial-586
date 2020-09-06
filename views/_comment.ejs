@@ -1,10 +1,10 @@
 <li class="media" id="post-comment-<%=comment._id%>">
     <a href="#" class="pull-left">
-        <img src="  <%=comment.user.avatar%>" alt=""
-            class="img-circle">
+        <a href="/user/profile/<%=comment.user.id %>">  <img src="  <%=comment.user.avatar%>" alt=""
+            class="img-circle"></a>
     </a>
     <div class="media-body mx-2">
-        <strong class="text-success"> <%=comment.user.name%></strong>
+        <a href="/user/profile/<%=comment.user.id %>"><strong class="text-success"> <%=comment.user.name%></strong></a>
         <br>
         <sup class="text-muted pull-right ">
             <small class="text-muted" id="time_comment"><%=moment(comment.createdAt).fromNow().charAt(0).toUpperCase()+moment(comment.createdAt).fromNow().slice(1)%></small>
