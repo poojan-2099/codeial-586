@@ -55,13 +55,16 @@ $('document').ready(()=>{
                     
                 </div>
                
+                ${
+                    post.post_img!=null ?
+                        `<img src="${post.post_img}" class="card-img-top" alt="..."> `
+                    :''
+                }   
+                <h5 class="card-text mt-3" style="white-space: pre-line"><i class="fas fa-comments mr-4"></i> ${post.content}</h5>
                    
+
                 
-                <img src="${post.post_img}" class="card-img-top" alt="..."> 
-                    <h5 class="card-text mt-3"><i class="fas fa-comments mr-4"></i> ${post.content}</h5>
-                <%}%>
-    
-                   
+
                    
             </div>
             <div class="container-fluid">
