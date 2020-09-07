@@ -132,3 +132,11 @@ module.exports.update=async (req,res)=>{
     }
 
 }
+
+module.exports.resetpass= function (req,res) {
+    res.statusCode = 200;
+    return res.render('reset_password/check_email.ejs', {
+        title: 'Apix | Password reset'
+    });
+   
+}
