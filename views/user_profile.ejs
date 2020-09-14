@@ -136,9 +136,58 @@
 </main>
   <%}else{%>
   <!-- if user dont match than only show profile  -->
-      <h3>User Name : <%=profile_user.name%></h3>
-      <h3>User Email : <%=profile_user.email%></h3>
-      <img src="<%= profile_user.avatar %>" alt="">
+  <header>
+
+    <div class="container1">
+  
+      <div class="profile">
+  
+        <div class="profile-image">
+  
+          <img class="user_avatar"src="<%= profile_user.avatar %>"" alt=" <%=profile_user.name%>">
+  
+        </div>
+  
+        <div class="profile-user-settings">
+  
+          <h1 class="profile-user-name"> <%=profile_user.name%></h1>
+          
+     
+            <%if(!locals.are_friends){%>
+              <a  href="/user/profile/<%=profile_user._id%>/toggle_friend" id="add-friend"  class="btn1 profile-edit-btn border border-dark bg-dark text-white " >Follow</a>
+            <%}else{%>
+                <a  href="/user/profile/<%=profile_user._id%>/toggle_friend" id="add-friend"  class="btn1 profile-edit-btn border border-dark bg-dark text-white ">Unfollow</a>
+            <%}%>
+
+
+  
+  
+        </div>
+  
+        <div class="profile-stats">
+  
+          <ul>
+            <li><span class="profile-stat-count">164</span> posts</li>
+            <li><span class="profile-stat-count">188</span> followers</li>
+            <li><span class="profile-stat-count">206</span> following</li>
+          </ul>
+  
+        </div>
+  
+        <div class="profile-bio">
+  
+          <p><span class="profile-real-name"><%=profile_user.name%></span> <%=profile_user.bio%></p>
+  
+        </div>
+  
+      </div>
+      <!-- End of profile section -->
+  
+    </div>
+    <!-- End of container -->
+  
+  </header>
+  
   <%}%>
   
 </div>

@@ -38,7 +38,9 @@ body {
     color: #262626;
     padding-bottom: 3rem;
 }
-
+a{
+    text-decoration: none!important;
+}
 img {
     display: block;
 }

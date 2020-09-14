@@ -20,6 +20,7 @@
                         $(`#post-comment-${data.data.comment.post}`).prepend(newComment);
 
                         deleteComment($(' .delete_comment_button', newComment));
+                        new ToggleLike($(`#like-${data.data.comment._id}`, newComment));
 
                         callNotysuccess('Commented Successfully !');
                     },
@@ -48,6 +49,11 @@
            </sup>
            <p>
             ${comment.content}
+           </p>
+           <p>
+           <a href="/like/toggle/?id=${comment._id}&type=Comment" id="like-${comment._id}" class="like-buttons"
+           data-likes="0" data-toggle="false"><i class="far fa-heart"></i>
+           <span>0</span> </a> &nbsp;&nbsp;&nbsp;
            </p>
        </div>
    

@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
-
+const Friendship = require('../models/friendship');
 
 //function for user page profile
 module.exports.userProfile =async function (req, res) {
@@ -12,12 +12,32 @@ module.exports.userProfile =async function (req, res) {
             populate:{
                 path:'user'
             }
-        });;
+        });
+        let are_friends = false;
+
+        Friendship.findOne({
+            $or: [{ from_user: req.user._id, to_user: req.params.id },
+            { from_user: req.params.id, to_user: req.user._id }]
+        }, function (error, friendship)
+        {
+            if (error)
+            {
+                console.log('There was an error in finding the friendship', error);
+                return;
+            }
+            if (friendship)
+            {
+                are_friends = true;
+            }
+           
         
         return res.render('user_profile.ejs', {
             title: ' User Profile',
-            profile_user:user
+            profile_user:user,
+            are_friends: are_friends
+
         });
+    });
     } catch (error) {
         console.log('error in finding user in profile user'); 
         return res.redirect('back');
@@ -32,7 +52,7 @@ module.exports.signUp = function (req, res) {
     }
     res.statusCode = 200;
     return res.render('user_sign_up.ejs', {
-        title: 'Codeial | Sign Up'
+        title: 'Apix | Sign Up'
     });
 };
 
@@ -43,7 +63,7 @@ module.exports.signIn = function (req, res) {
     }
     res.statusCode = 200;
     return res.render('user_sign_in.ejs', {
-        title: 'Codeial | Sign In'
+        title: 'Apix | Sign In'
     });
 };
 

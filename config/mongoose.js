@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 //connect to database using connect
-mongoose.connect('mongodb://localhost/codeial_User',{ useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/codeial_User',{ useUnifiedTopology: true ,useNewUrlParser: true });
 
 //get data of database in db ussing connection
 const db = mongoose.connection;

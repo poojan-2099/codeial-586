@@ -26,7 +26,17 @@
                <div>
                 <h5 class="card-text mt-3" style="white-space: pre-line"><%=post.content%></h5>
                </div>
+               
             </div>
+            <br>
+            <%if(locals.user){%>
+                <a href="/like/toggle/?id=<%=post.id%>&type=Post" id="like-<%=post.id%>" class="like-buttons"
+                    data-toggle="false" data-likes="<%=post.likes.length%>"><i class="far fa-heart"></i>
+                    <span><%=post.likes.length%></span> </a>
+                &nbsp&nbsp&nbsp
+            <%}else{%>
+                <%=post.likes.length%> Likes&nbsp&nbsp
+            <%}%>
         </div>
         <div class="container-fluid">
             <div class="row bootstrap snippets bootdeys">

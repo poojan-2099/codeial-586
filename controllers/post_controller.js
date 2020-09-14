@@ -3,6 +3,7 @@ const Comment = require('../models/comment')
 const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
+const Like = require('../models/like');
 
 module.exports.posting = async (req, res) => {
     try {
@@ -107,6 +108,8 @@ module.exports.destroy = function(req, res){
          Post.findById(req.params.id,function(err,post){
         if (post.user == req.user.id) {
             let userId = post.user;
+             Like.deleteMany({likable:post, onModel:'Post'});
+             Like.deleteMany({_id:{$in:post.comments}})
             post.remove();
             Comment.deleteMany({ post: req.params.id });
             User.findByIdAndUpdate(userId,{$pull:{posts: req.params.id}},function(err,post){

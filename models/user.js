@@ -33,7 +33,17 @@ const userSchema = new mongoose.Schema({
     ],
     facebookId:{
         type:String,
-    }
+    },
+    TwitterId:{
+        type:String,
+    },
+    friendships:
+    [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Friendship'
+        }
+    ]
 
 }, {
     timestamps: true

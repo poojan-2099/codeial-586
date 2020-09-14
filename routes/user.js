@@ -4,11 +4,12 @@ const passport = require('passport');
 
 //import homecontroller from controllers
 const userController= require('../controllers/users_controller');
+const friendship_controller= require('../controllers/friendship_controller');
 
 //router for home page
 router.get('/sign_Up',userController.signUp);
 router.get('/sign_In',userController.signIn);
-
+router.get('/profile/:id/toggle_friend',passport.checkAuthentication,friendship_controller.toggle_friendship);
 router.get('/profile/:id',passport.checkAuthentication,userController.userProfile);
 router.post('/update/:id',passport.checkAuthentication,userController.update);
 router.post('/create', userController.create);
@@ -30,6 +31,11 @@ router.get('/auth/facebook/callback',
             passport.authenticate('facebook', { failureRedirect: '/user/sign_In'  }),
             userController.loginUser );
 
+router.get('/auth/twitter', passport.authenticate('twitter',{scope:['profileFields ','email']}));
 
+
+router.get('/auth/twitter/callback',
+            passport.authenticate('twitter', { failureRedirect: '/user/sign_In'  }),
+            userController.loginUser );
 
 module.exports=router;

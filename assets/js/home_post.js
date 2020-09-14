@@ -19,6 +19,9 @@ $('document').ready(()=>{
                       $('#notes_post').prepend(newPostData);
                       deletePost($(' .delete_post_button', newPostData));
                       callNotysuccess('Posted Successfully !');
+                    
+                    new ToggleLike($(`#like-${data.data.post._id}`, newPostData));
+
                     },
                     error:function(error){
                         console.log(error.responseText);
@@ -60,10 +63,19 @@ $('document').ready(()=>{
                         `<img src="${post.post_img}" class="card-img-top" alt="..."> `
                     :''
                 }   
-                <h5 class="card-text mt-3" style="white-space: pre-line"><i class="fas fa-comments mr-4"></i> ${post.content}</h5>
-                   
-
-                
+                <div class="d-flex">
+                <div>
+               <i class="fas fa-comments mr-4  mt-4 fa-lg"></i> 
+            </div>
+               <div>
+                <h5 class="card-text mt-3" style="white-space: pre-line">${post.content}</h5>
+               </div>
+               
+            </div>
+            <br>  
+                <a href="/like/toggle/?id=${post._id}&type=Post" id="like-${post._id}" class="like-buttons"
+                data-toggle="false" data-likes="0"><i class="far fa-heart"></i> <span>0</span></a>
+                &nbsp&nbsp&nbsp
 
                    
             </div>
@@ -131,7 +143,6 @@ $('document').ready(()=>{
                       console.log(data);
                     $(`#post_${data.data.post_id}`).remove();
                     callNotysuccess('Deleted Successfully !');
-
                    },
                    error:function(error){
                     callNotyErr('Error In deleting ! Please try after some time');
@@ -173,7 +184,8 @@ apply_dynamic_delete_to_existing_posts();
                 timeout:3000
             }).show();
         }
-
+   
+      
         createPost();
        
      

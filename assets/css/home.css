@@ -36,3 +36,6 @@ svg :hover{
     height: 50px;
     
 }
+.like-button{
+    text-decoration: none;
+}

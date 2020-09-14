@@ -15,6 +15,6 @@ router.use('/user',require('./user'))
 router.use('/post',require('./post'))
 router.use('/comment',require('./comment'))
 router.use('/reset_password',require('./resetpassword'))
-
+router.use('/like', require('./like'))
 
 module.exports=router;
