@@ -17,6 +17,11 @@ const customMware = require('./config/middleware');
 const sassMiddleware = require('node-sass-middleware');
 const nocache = require('nocache');
 const moment = require('moment');
+//for chating sockets
+const chatServer = require('http').Server(app);
+const chatSocket = require('./config/Chat_socket').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is lisning on port 5000');
 
 // const path = require('path');
 
