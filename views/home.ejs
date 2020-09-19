@@ -91,7 +91,7 @@
 <script src="/js/chat_engine.js"></script>
 <%if(locals.user){%>
 <script>
-    new chatEngine('UserChatBox','<%=locals.user.email%>')
+    new chatEngine('UserChatBox','<%=locals.user.email%>','<%=locals.user.avatar%>')
 </script>
 <%}%>
 </body>
