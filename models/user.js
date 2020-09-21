@@ -37,6 +37,13 @@ const userSchema = new mongoose.Schema({
     TwitterId:{
         type:String,
     },
+    padFriend:
+    [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'PADFri'
+        }
+    ],
     friendships:
     [
         {

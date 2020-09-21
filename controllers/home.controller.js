@@ -3,7 +3,7 @@ const Comment = require('../models/comment');
 const moment = require('moment');
 const User = require('../models/user');
 const Friendship = require('../models/friendship');
-
+const PADFri=require('../models/padding_friend');
 
 //function for home page
 module.exports.home= async function(req,res){
@@ -22,7 +22,16 @@ module.exports.home= async function(req,res){
        
 
         let user = await User.find({});
-       
+      
+        var bruth=null;
+        if (req.user){
+            var localmainuser= await User.findById(req.user._id).populate({
+                path:'padFriend',
+                populate:'user'
+            })  
+             bruth=localmainuser.padFriend 
+        }
+        
         /* new step 4: finding the friends of the logged in user */
         let friends = new Array();
         if (req.user)/* friends list will only be loaded if thhe user is signed in */
@@ -56,7 +65,8 @@ module.exports.home= async function(req,res){
             post_list:post,
             all_user:user,
             moment:moment,
-            friends:friends
+            friends:friends,
+            paddreq:bruth
         });
 
     } catch(error){

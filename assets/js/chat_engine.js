@@ -1,3 +1,4 @@
+
 class chatEngine{
     constructor (chatBoxID,userEmail,user_avatar){
         this.chatBox=$(`#${chatBoxID}`);
@@ -14,59 +15,95 @@ class chatEngine{
         let self = this;
         this.socket.on('connect',function(){
             console.log('connection established using socket');
-        self.socket.emit('join_room', 
+             self.socket.emit('join_room', 
         {
             user_email:self.userEmail,
-            chatroom:'Apix express'
+            ChatRoomId:'Apix express'
         });
-        self.socket.on('user_joined', function(data)
-        {
-            console.log('A user has joined', data);
-        });
-    });  $('#send-message').click(function(event)
+            self.socket.on('user_joined', function(data)
+            {
+                console.log('A user has joined', data);
+            });
+    });
+      $('#send-message').click(function(event)
     {
         event.preventDefault();
-        let message=$('#message').val();
+        let message=$('#inputText').val();
         if(message!='')
         {
-            $('#message').val('')
+            $('#inputText').val('')
             self.socket.emit('send_message', {
                 message:message,
                 user_email:self.userEmail,
                 user_avatar:self.user_avatar,
-                chatroom:'Apix express'
+                ChatRoomId:'Apix express'
             });
         }
     });
 
-    self.socket.on('recieve_message', function(data)
-    {
-        console.log('Recieved some message!', data);
-        let newMessage=$(`	<div class="d-flex justify-content-start mb-4">
-        <div class="img_cont_msg">
-            <img src="${data.user_avatar}" class="rounded-circle user_img_msg">
-        </div>
-        <div class="msg_cotainer">
-        ${data.message}
-            <span class="msg_time">8:40 AM, Today,${data.user_email}</span>
-        </div>
-    </div>`);
-       
-        if(data.user_email==self.userEmail)
+        self.socket.on('recieve_message', function(data)
         {
-            newMessage=$(`<div class="d-flex justify-content-end mb-4">
-            <div class="msg_cotainer_send">
-               ${data.message}
-                <span class="msg_time_send">8:55 AM, Today,${data.user_email}</span>
+            
+            console.log('Recieved some message!', data);
+            let newMessage=$(`	  <div class="message message-left">
+            <div class="avatar-wrapper avatar-small">
+              <img class="chatimg"src="${data.user_avatar}" alt="avatar" />
             </div>
-            <div class="img_cont_msg">
-        <img src="${data.user_avatar}" class="rounded-circle user_img_msg">
+            <div class="bubble bubble-light">
+            ${data.message}
             </div>
-        </div>`)
-        }
-        console.log(data.message)
-        $('#ms_card_body').append(newMessage);
-    })
+          </div>`);
+           
+            if(data.user_email==self.userEmail)
+            {
+                newMessage=$(`<div class="message message-right">
+                <div class="avatar-wrapper avatar-small">
+                  <img class="chatimg" src=${data.user_avatar} alt="avatar" />
+                </div>
+                <div class="bubble bubble-dark">
+                ${data.message}
+                </div>
+              </div>`)
+            }
+            console.log(data.message,'brother')
+            $('.chat-room').append(newMessage);
+        })
+        var typing=false;
+        var timeout=undefined;
+          //sending request for broadcasting if a user presses any key during chat
+          function typingTimeout(){
+            console.log('clewar interval')
+             typing=false;
+           
+          }
+          
+          $('#inputText').on('keypress',function(e){
+            if(e.which!=13){
+                typing=true
+                self.socket.emit('typing', { typing:true})
+                clearTimeout(timeout)
+                timeout=setTimeout(typingTimeout, 3000)
+              }else{
+                clearTimeout(timeout)
+                typingTimeout()
+               
+                //sendMessage() function will be called once the user hits enter
+                sendMessage()
+              }
+          
+        });
+        //receiving request of broadcasting msg ie 'user is typing' to other users 
+         //code explained later
+        self.socket.on('display', (data)=>{
+            if(data.typing==true){
+            $('#feedback').text(` typing...`)
+            }
+            else{
+            $('#feedback').text("")
+            }
+        })
+
+  
     
     }
 }

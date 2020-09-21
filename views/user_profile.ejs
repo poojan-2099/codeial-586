@@ -83,7 +83,7 @@
 				<ul>
 					<li><span class="profile-stat-count">164</span> posts</li>
 					<li><span class="profile-stat-count">188</span> followers</li>
-					<li><span class="profile-stat-count">206</span> following</li>
+					<li><span class="profile-stat-count"><%=user.friendships.length%></span> following</li>
 				</ul>
 
 			</div>
@@ -144,7 +144,7 @@
   
         <div class="profile-image">
   
-          <img class="user_avatar"src="<%= profile_user.avatar %>"" alt=" <%=profile_user.name%>">
+          <img class="user_avatar"src="<%= profile_user.avatar %>" alt=" <%=profile_user.name%>">
   
         </div>
   
@@ -153,14 +153,16 @@
           <h1 class="profile-user-name"> <%=profile_user.name%></h1>
           
      
-            <%if(!locals.are_friends){%>
-              <a  href="/user/profile/<%=profile_user._id%>/toggle_friend" id="add-friend"  class="btn1 profile-edit-btn border border-dark bg-dark text-white " >Follow</a>
-            <%}else{%>
-                <a  href="/user/profile/<%=profile_user._id%>/toggle_friend" id="add-friend"  class="btn1 profile-edit-btn border border-dark bg-dark text-white ">Unfollow</a>
-            <%}%>
+            <%if(locals.are_friends){%>
+              <a  href="/user/profile/<%=profile_user._id%>/toggle_friend" id="add-friend"  class="btn1 profile-edit-btn border border-dark bg-dark text-white " >Unfollow</a>
+              <%}else{%>
+                <a href ="/user/friendreq/<%=profile_user._id%>"  id="add-friend"  class="btn1 profile-edit-btn border border-dark bg-dark text-white " > friend requiest </a>
 
+                <%}%>
+             
+                    <a href ="/user/chatbox/?id=<%=profile_user._id%>" class="btn1 profile-edit-btn border border-dark bg-dark text-white " >message</a>
+         
 
-  
   
         </div>
   
@@ -169,7 +171,7 @@
           <ul>
             <li><span class="profile-stat-count">164</span> posts</li>
             <li><span class="profile-stat-count">188</span> followers</li>
-            <li><span class="profile-stat-count">206</span> following</li>
+            <li><span class="profile-stat-count"><%=profile_user.friendships.length%></span> following</li>
           </ul>
   
         </div>
@@ -191,6 +193,7 @@
   <%}%>
   
 </div>
+
 <script src="/js/user_profile.js"></script>
   </body>
 </html>

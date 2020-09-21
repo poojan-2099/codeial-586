@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const Friendship = require('../models/friendship');
-
+const PADFr= require('../models/padding_friend');
 module.exports.toggle_friendship = (req, res) =>
 {
     let from_id = req.user._id;
@@ -74,8 +74,48 @@ module.exports.toggle_friendship = (req, res) =>
                         }
                         console.log(data);
                     });
+                    if(req.query.pid != null ){
+                        PADFr.findById(req.query.pid,function(error,userreq){
+                       if(error){
+                           return;
+                       }
+                       userreq.remove();
+                       User.findByIdAndUpdate(req.user._id,{$pull:{padFriend:req.query.pid}})
+                        });
+                   }
                 });
             }
             return res.redirect('back');
         });
+}
+module.exports.padding_friend=async function(req,res){
+    try {
+      
+           let adduser=await  PADFr.create({
+            user:req.user._id
+           })
+            let main_user = await User.findById(req.params.id);
+            // console.log(adduser.id);
+            main_user.padFriend.push(adduser);
+            main_user.save();
+        return res.redirect('back');
+    } catch (error) {
+        console.log('Error in adding the friendship to the user database', error);
+        return;
+    }
+    
+}
+module.exports.cancel_friend=async function(req,res){
+    try {
+       
+        let userId=await req.user._id
+        let userreq =await  PADFr.findById(req.params.id);
+        userreq.remove();
+        User.findByIdAndUpdate(userId,{$pull:{padFriend: req.params.id}})
+        return res.redirect('back');
+    } catch (error) {
+        console.log('Error in adding the friendship to the user database', error);
+        return;
+    }
+    
 }

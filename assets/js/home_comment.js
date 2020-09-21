@@ -1,9 +1,26 @@
 {
 
     $('document').ready(() => {
+        let toggle = false;
 
+        function toggle_commentbox(link) {
+            $(link).click((e) => {
+                console.log('toggle')
+                if (toggle == true) {
+                    $($(link).data("target")).addClass("d-none");
+                    toggle = false;
+                }
+                else {
+                    $($(link).data("target")).removeClass("d-none");
+                    toggle = true;
+                }
+
+            })
+        }
+        for (let link of $('.trigger')) {
+            toggle_commentbox($(link))
+        }
         //method of Creating a Comment with ajax request
-
         let createComment = (comment_form) => {
 
             comment_form.submit((e) => {
@@ -69,22 +86,22 @@
 
             $(deleteLink).click((event) => {
                 event.preventDefault();
-                if(confirm("Are you sure ! You want to delete this ?")){
+                if (confirm("Are you sure ! You want to delete this ?")) {
 
-                $.ajax({
-                    method: 'get',
-                    url: $(deleteLink).prop('href'),
-                    success: (data) => {
-                        $(`#post-comment-${data.data.comment_id}`).remove();
-                        callNotysuccess('Deleted Successfully !');
+                    $.ajax({
+                        method: 'get',
+                        url: $(deleteLink).prop('href'),
+                        success: (data) => {
+                            $(`#post-comment-${data.data.comment_id}`).remove();
+                            callNotysuccess('Deleted Successfully !');
 
-                    },
-                    error: function (error) {
-                        callNotyErr('Error In deleting ! Please try after some time');
-                        console.log(error.responseText);
-                    }
-                });
-            }
+                        },
+                        error: function (error) {
+                            callNotyErr('Error In deleting ! Please try after some time');
+                            console.log(error.responseText);
+                        }
+                    });
+                }
             });
 
         }
@@ -105,24 +122,24 @@
         apply_dynamic_delete_to_existing_comment();
 
 
-        callNotysuccess=(text)=>{
+        callNotysuccess = (text) => {
             new Noty({
-            theme:'relax',
-            text:text,
-            type:'success',
-            layout:'topRight',
-            timeout:3000
-        }).show();
-    }
-    callNotyErr=(text)=>{
+                theme: 'relax',
+                text: text,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 3000
+            }).show();
+        }
+        callNotyErr = (text) => {
             new Noty({
-            theme:'relax',
-            text:text,
-            type:'error',
-            layout:'topRight',
-            timeout:3000
-        }).show();
-    }
+                theme: 'relax',
+                text: text,
+                type: 'error',
+                layout: 'topRight',
+                timeout: 3000
+            }).show();
+        }
 
         createComment();
 

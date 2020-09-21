@@ -1,77 +1,72 @@
 <%if(locals.user){%>
-<link rel="stylesheet" type="text/css" href="/css/chatbox.css">
-	<body>
-		<div class="container-fluid h-100" id="UserChatBox">
-			<div class="row justify-content-center h-100">
+	<link rel="stylesheet" type="text/css" href="/css/chatbox.css">
+		<body>
 			
-				<div class="col-md-8 col-xl-6 chat">
-					<div class="card chardinner">
-						<div class="card-header msg_head">
-							<div class="d-flex bd-highlight">
-								<div class="img_cont">
-									<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
-									<span class="online_icon"></span>
-								</div>
-								<div class="user_info">
-									<span>chat Brother</span>
-									<p>1767 Message</p>
-								</div>
-								<div class="video_cam">
-									<span><i class="fas fa-video"></i></span>
-									<span><i class="fas fa-phone"></i></span>
-								</div>
-							</div>
-							<span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
-							<div class="action_menu">
-								<ul>
-									<li><i class="fas fa-user-circle"></i> View profile</li>
-									<li><i class="fas fa-users"></i> Add to close friends</li>
-									<li><i class="fas fa-plus"></i> Add to group</li>
-									<li><i class="fas fa-ban"></i> Block</li>
-								</ul>
-							</div>
-						</div>
-						<div class="card-body msg_card_body" id="ms_card_body">
-							<div class="d-flex justify-content-start mb-4">
-								<div class="img_cont_msg">
-									<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-								</div>
-								<div class="msg_cotainer">
-									Hi, how are you samim?
-									<span class="msg_time">8:40 AM, Today</span>
-								</div>
-							</div>
-							<div class="d-flex justify-content-end mb-4">
-								<div class="msg_cotainer_send">
-									Hi Khalid i am good tnx how about you?
-									<span class="msg_time_send">8:55 AM, Today</span>
-								</div>
-								<div class="img_cont_msg">
-							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-								</div>
-							</div>
-						
-						</div>
-						<div class="card-footer">
-							<div class="input-group">
-								<form action="">
-								<div class="input-group-append">
-									<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
-								</div>
-								<input type="text" name="message" class="form-control type_msg" 
-								id="message" placeholder="Type your message...">
-								<div class="input-group-append">
-									<button type="submit" id="send-message" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
-								</div>
-							</form>
-							</div>
-						</div>
-					</div>
+			<div class="chat-box" id="UserChatBox">
+				<div class="header1">
+				  <div class="avatar-wrapper avatar-big">
+					<img class="chatimg" src="https://znews-photo.zadn.vn/w660/Uploaded/pnbcuhbatgunb/2020_03_23/i13863960814_1.jpg" alt="avatar" />
+				  </div>
+				  <span class="name">brother</span>
+				  <div id="feedback"></div>
+				  <span class="options">
+					<i class="fas fa-ellipsis-h"></i>
+				  </span>
 				</div>
-			</div>
-		</div>
-		
-<script src="/js/chatbox.js"></script>
-
-	</body>
-<%}%>
+				<div class="chat-room" id="ms_card_body">
+				  <div class="message message-left">
+					<div class="avatar-wrapper avatar-small">
+					  <img class="chatimg"src="https://znews-photo.zadn.vn/w660/Uploaded/pnbcuhbatgunb/2020_03_23/i13863960814_1.jpg" alt="avatar" />
+					</div>
+					<div class="bubble bubble-light">
+					  Hey anhat!
+					</div>
+				  </div>
+				  <div class="message message-right">
+					<div class="avatar-wrapper avatar-small">
+					  <img class="chatimg" src="<%=locals.user.avatar%>" alt="avatar" />
+					</div>
+					<div class="bubble bubble-dark">
+					  what is going on?
+					</div>
+				  </div>
+				</div>
+				<form action="">
+				<div class="type-area">
+				  <div class="input-wrapper">
+					<input type="text" name="message" id="inputText" placeholder="Type messages here..." autocomplete="off" />
+				  </div>
+				  <span class="button-add">
+					<i class="fas fa-plus-circle"></i>
+					<div class="others">
+					  <span class="emoji-button">
+						<i class="far fa-laugh"></i>
+						<div class="emoji-box">
+						  <span>&#x1f604;</span>
+						  <span>😀</span>
+						  <span>😂</span>
+						  <span>😭</span>
+						  <span>😍</span>
+						  <span>🤮</span>
+						  <span>🤑</span>
+						  <span>😖</span>
+						  <span>😷</span>
+						</div>
+					  </span>
+					  <span class="image-button">
+						<i class="far fa-image"></i>
+					  </span>
+					  <span>
+						<i class="fas fa-paperclip"></i>
+					  </span>
+					</div>
+				  </span>
+				  <button type="submit" id="send-message" class="button-send">Send</button>
+				</div>
+			</form>
+			  </div>
+	<script src="/js/chatbox.js"></script>
+	
+		</body>
+	<%}%>
+	
