@@ -37,8 +37,9 @@
             <%}else{%>
                 <%=post.likes.length%> Likes&nbsp&nbsp
             <%}%>
+            <button class="trigger " style="background-color: transparent;" data-target="#comment_hide_comment_<%=post._id%>"><i class="far fa-comment"></i></button>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid d-none" id="comment_hide_comment_<%=post._id%>"  >
             <div class="row bootstrap snippets bootdeys">
                 <div class="col" id="#card">
                     <div class="comment-wrapper">
