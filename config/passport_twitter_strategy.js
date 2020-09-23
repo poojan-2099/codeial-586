@@ -2,12 +2,13 @@ const passport = require('passport');
 const crypto = require('crypto');
 const TwitterStrategy = require('passport-twitter').Strategy;
 const User = require('../models/user');
+const env = require('./environment');
 
 passport.use(new TwitterStrategy({
-    consumerKey: 'ZANY3siWoQih4LRoi7SRK9ACT',
-    consumerSecret: '1jjID5QyFi2dKjCILl01SxAZEmNBreo4yQcI438mOYvCZSrWtQ',
-    callbackURL: "http://localhost:8000/user/auth/twitter/callback",
-    userProfileURL  : 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true'
+    consumerKey: env.TTR_consumerKey,
+    consumerSecret: env.TTR_consumerSecret,
+    callbackURL: env.TTR_callbackURL,
+    userProfileURL  : env.TTR_userProfileURL
   },
   function(token, tokenSecret, profile, cb) {
     

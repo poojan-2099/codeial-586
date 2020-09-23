@@ -1,4 +1,6 @@
 const express = require('express');
+const env =require('./config/environment');
+const logger = require('morgan')
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = 8000;
@@ -22,24 +24,28 @@ const chatServer = require('http').Server(app);
 const chatSocket = require('./config/Chat_socket').chatSockets(chatServer);
 chatServer.listen(5000);
 console.log('chat server is lisning on port 5000');
-
+const path = require('path')
 // const path = require('path');
-
-app.use(sassMiddleware({
-    src:'./assets/scss',
-    dest:'./assets/css',
-    debug:false,
-    outputStyle:'expanded',
-    prefix:'/css'
-}))
+if(env.name=="developement"){
+    app.use(sassMiddleware({
+        src:path.join(__dirname, env.asset_path,'/scss'),
+        dest:path.join(__dirname, env.asset_path,'/css'),
+        debug:false,
+        outputStyle:'expanded',
+        prefix:'/css'
+    }));
+}
 app.use(express.urlencoded());
 
 app.use(cookieParser());
 
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 
 //make upload folder awailable to browser
 app.use('/upload',express.static(__dirname+'/upload'));
+
+app.use(logger(env.morgan.mode,env.morgan.options));
+
 app.use(expressLayouts);
 //exrtract style and script feom subpages to layout page
 app.set('layout extractStyles', true);
@@ -52,7 +58,7 @@ app.set('views', './views');
 
 app.use(session({
     name:'codeial',
-    secret:'avengers',
+    secret:env.session_cookie,
     saveUninitialized:false,
     resave:false,
     cookie:{

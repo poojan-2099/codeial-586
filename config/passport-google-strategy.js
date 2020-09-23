@@ -2,12 +2,14 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const crypto = require('crypto');
 const User = require('../models/user');
+const env = require('./environment');
 
 //passport google strategy to find or create a user with google strategy
+
 passport.use(new GoogleStrategy({
-    clientID:'355677701312-o8sjeqntr8009qma5u348n3em58586vh.apps.googleusercontent.com',
-    clientSecret: '7IPDLBe-MT-NckXIJRwm4LRb',
-    callbackURL: "http://localhost:8000/user/auth/google/callback",
+    clientID: env.GGL_clientId,
+    clientSecret: env.GGL_clientSecret,
+    callbackURL: env.GGL_callbackURL,
     passReqToCallback:true,
   },
 //accesstoken and refresh token are use for authorization check by google
