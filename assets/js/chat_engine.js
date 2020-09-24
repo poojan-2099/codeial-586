@@ -86,9 +86,11 @@ class chatEngine{
               }else{
                 clearTimeout(timeout)
                 typingTimeout()
+                typing=flase
+                self.socket.emit('typing', { typing:false})
                
                 //sendMessage() function will be called once the user hits enter
-                sendMessage()
+               
               }
           
         });

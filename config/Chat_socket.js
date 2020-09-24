@@ -18,5 +18,14 @@ module.exports.chatSockets = function (socketServer) {
         {
             io.in(data.chatroom).emit('recieve_message', data);
         });
+          //receiving a request for broadcasting
+          socket.on('typing', function(data){
+            if(data.typing==true){
+                socket.broadcast.emit('display', data)
+            }
+            else{
+                socket.broadcast.emit('display', data)
+            }
+        });
     })
 }
