@@ -9,7 +9,6 @@ const AccesslogStream = rfs.createStream('access.log',{
     interval:'1d',
     path:logDirectory
 });
-
 const developement ={
     name:'developement',
     asset_path:'./assets',
@@ -73,4 +72,5 @@ const production = {
     }
 }
 
-module.exports=eval(process.env.NODE_ENV)==undefined ? developement:eval(process.env.NODE_ENV);
+// module.exports=eval(process.env.NODE_ENV)==undefined ? developement:eval(process.env.NODE_ENV);
+module.exports=developement;

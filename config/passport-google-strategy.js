@@ -5,7 +5,6 @@ const User = require('../models/user');
 const env = require('./environment');
 
 //passport google strategy to find or create a user with google strategy
-
 passport.use(new GoogleStrategy({
     clientID: env.GGL_clientId,
     clientSecret: env.GGL_clientSecret,

@@ -68,34 +68,17 @@ class chatEngine{
             console.log(data.message,'brother')
             $('.chat-room').append(newMessage);
         })
-        var typing=false;
-        var timeout=undefined;
-          //sending request for broadcasting if a user presses any key during chat
-          function typingTimeout(){
-            console.log('clewar interval')
-             typing=false;
-           
-          }
-          
-          $('#inputText').on('keypress',function(e){
-            if(e.which!=13){
-                typing=true
-                self.socket.emit('typing', { typing:true})
-                clearTimeout(timeout)
-                timeout=setTimeout(typingTimeout, 3000)
-              }else{
-                clearTimeout(timeout)
-                typingTimeout()
-                typing=flase
-                self.socket.emit('typing', { typing:false})
-               
-                //sendMessage() function will be called once the user hits enter
-               
-              }
-          
-        });
-        //receiving request of broadcasting msg ie 'user is typing' to other users 
-         //code explained later
+      
+          $('#inputText').on('keydown',function(e){
+              self.socket.emit('typing', { typing:true});
+          });
+      
+          $('#inputText').on('keyup',function(e){
+              setTimeout(() => {     
+                   self.socket.emit('typing', { typing:false})
+               }, 2000);
+          });
+       
         self.socket.on('display', (data)=>{
             if(data.typing==true){
             $('#feedback').text(` typing...`)
