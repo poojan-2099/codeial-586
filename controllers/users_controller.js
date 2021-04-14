@@ -2,6 +2,7 @@ const User = require('../models/user');
 const fs = require('fs');
 const path = require('path');
 const Friendship = require('../models/friendship');
+const msgMailer = require('../mailers/sendmsg')
 
 //function for user page profile
 module.exports.userProfile =async function (req, res) {
@@ -159,4 +160,22 @@ module.exports.resetpass= function (req,res) {
         title: 'Apix | Password reset'
     });
    
+}
+
+
+module.exports.msg= async (req,res)=>{
+    try {
+        let msg= req.body.msg
+        let user =await User.findById(req.params.id) 
+        let ruser= req.user.name
+        let mail= req.user.email
+        a=[msg,user.name,user.email,ruser,mail]
+        console.log(a[2])
+        msgMailer.newMsg(a)
+        req.flash('success_message','Massage send successfully');
+        return res.redirect('back');
+    }  catch (error) {
+        req.flash('error','Unauthorized',error);
+        return res.status(401).send('Unauthorized');
+    }
 }

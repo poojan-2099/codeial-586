@@ -3,13 +3,12 @@
 <body>
     <div class="main">
         <%if (locals.user) {%>
-        <h1 class="text-center"><%=user.name%></h1>
-        <h1 class="text-center">we are in home page bro</h1>
     <hr>
     <div class="container ">  
         <div class=" row">
             <div class="col-9">
                 <div class="container">
+                    
                     <h1>Only For Post</h1>
 
                     <form action="/post/create" id="post_form" enctype="multipart/form-data"  method="POST">
@@ -44,7 +43,7 @@
                 <%}else{%>
                     <h1 class="text-center">we are in home page bro</h1>
                 <%}%>
-                <div class="container" id="notes_post">
+                <div class="container " id="notes_post">
                     <% for (post of post_list) { %>
                         <%- include('_post') -%>
                     <% } %>

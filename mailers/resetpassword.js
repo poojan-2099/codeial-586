@@ -6,7 +6,7 @@ exports.resetPass = (token)=>{
 
     nodemailer.transporter.sendMail({
         
-        from:'apixcommunication@gmail.com',
+        from:'apixcommunication.com@gmail.com',
         to: token.user.email, // list of receivers
         subject: "Apix | Link to reset password", // Subject line
        

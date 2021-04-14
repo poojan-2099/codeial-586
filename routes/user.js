@@ -41,5 +41,6 @@ router.get('/auth/twitter', passport.authenticate('twitter',{scope:['profileFiel
 router.get('/auth/twitter/callback',
             passport.authenticate('twitter', { failureRedirect: '/user/sign_In'  }),
             userController.loginUser );
+router.post('/sendmsg/:id',passport.checkAuthentication,userController.msg);
 
 module.exports=router;

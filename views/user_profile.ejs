@@ -81,9 +81,9 @@
 			<div class="profile-stats">
 
 				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
-					<li><span class="profile-stat-count">188</span> followers</li>
-					<li><span class="profile-stat-count"><%=user.friendships.length%></span> following</li>
+					<li><span class="profile-stat-count"><%=user.posts.length%></span> posts</li>
+
+					<li><span class="profile-stat-count"><%=user.friendships.length%></span> Friend</li>
 				</ul>
 
 			</div>
@@ -116,8 +116,8 @@
 				<div class="gallery-item-info">
 
 					<ul>
-						<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+						<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> <%=img.likes.length%></li>
+						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> <%=img.comments.length%></li>
 					</ul>
 
 				</div>
@@ -169,11 +169,13 @@
         <div class="profile-stats">
   
           <ul>
-            <li><span class="profile-stat-count">164</span> posts</li>
-            <li><span class="profile-stat-count">188</span> followers</li>
-            <li><span class="profile-stat-count"><%=profile_user.friendships.length%></span> following</li>
+            <li><span class="profile-stat-count"><%=profile_user.posts.length%></span> posts</li>
+            <li><span class="profile-stat-count"><%=profile_user.friendships.length%></span> Friend</li>
           </ul>
-  
+          <form action="/user/sendmsg/<%=profile_user._id%>" method="post">
+              <input type="text" name="msg" id="msg" required >
+              <button type="submit">Send</button>
+          </form>
         </div>
   
         <div class="profile-bio">

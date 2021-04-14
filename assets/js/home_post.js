@@ -19,7 +19,7 @@ $('document').ready(()=>{
                       $('#notes_post').prepend(newPostData);
                       deletePost($(' .delete_post_button', newPostData));
                       callNotysuccess('Posted Successfully !');
-                    
+                      $(".comment_form1").addClass("comment_form");
                     new ToggleLike($(`#like-${data.data.post._id}`, newPostData));
 
                     },
@@ -86,7 +86,7 @@ $('document').ready(()=>{
                             <div class="card border-0">
                                 <div class="card-body">
                                   
-                                    <form action="/comment/create_comment" method="POST">
+                                    <form class="comment_form1" action="/comment/create_comment" method="POST">
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" placeholder="comment .."
                                                 aria-label="comment .." name="comment_content"

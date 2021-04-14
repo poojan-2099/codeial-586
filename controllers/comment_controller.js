@@ -79,7 +79,7 @@ module.exports.commenting= async (req,res)=>{
 //         return res.redirect('back');
 //     }
         
-//     }
+// }
   
     module.exports.destroy = function(req,res){
  

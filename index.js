@@ -45,6 +45,10 @@ app.use(express.static(env.asset_path));
 //make upload folder awailable to browser
 app.use('/upload',express.static(__dirname+'/upload'));
 
+
+
+
+
 app.use(logger(env.morgan.mode,env.morgan.options));
 
 app.use(expressLayouts);
